@@ -222,16 +222,13 @@ return [
             'className' => 'Cake\Database\Connection',
             'driver' => 'Cake\Database\Driver\Mysql',
             'persistent' => false,
+            // 'host' => 'localhost',
+            // 'username' => 'root',
+            // 'password' => 'password',
+            // 'database' => 'bds_nel',
+            
             'host' => 'nelnetdb-b55h5-mysql.nelnetdb-b55h5.svc.cluster.local',
-            /**
-             * CakePHP will use the default DB port based on the driver selected
-             * MySQL on MAMP uses port 8889, MAMP users will want to uncomment
-             * the following line and set the port accordingly
-             */
             'port' => '3306',
-            // 'username' => 'new_era_indus',
-            // 'password' => 'ju9wMWWkIEet0F2f',
-            // 'database' => 'nel_net_db',
             'username' => 'pQOJLiPoXkAkeJYz',
             'password' => 'ju9wMWWkIEet0F2f',
             'database' => 'nel_net_db',
