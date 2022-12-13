@@ -1,0 +1,40 @@
+2017-09-19 11:19:00 Notice: Notice (8): Undefined index: Projects in [C:\xampp\htdocs\new_era_industries\tmp\bake\Bake-Model-table-ctp.php, line 21]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE\src\Error\BaseErrorHandler.php, line 153
+include - ROOT\tmp\bake\Bake-Model-table-ctp.php, line 21
+Bake\View\BakeView::_evaluate() - ROOT\vendor\cakephp\bake\src\View\BakeView.php, line 204
+Cake\View\View::_render() - CORE\src\View\View.php, line 1157
+Bake\View\BakeView::render() - ROOT\vendor\cakephp\bake\src\View\BakeView.php, line 140
+Bake\Shell\Task\BakeTemplateTask::generate() - ROOT\vendor\cakephp\bake\src\Shell\Task\BakeTemplateTask.php, line 88
+Bake\Shell\Task\ModelTask::bakeTable() - ROOT\vendor\cakephp\bake\src\Shell\Task\ModelTask.php, line 947
+Bake\Shell\Task\ModelTask::bake() - ROOT\vendor\cakephp\bake\src\Shell\Task\ModelTask.php, line 111
+Bake\Shell\Task\ModelTask::main() - ROOT\vendor\cakephp\bake\src\Shell\Task\ModelTask.php, line 97
+Bake\Shell\BakeShell::Bake\Shell\{closure}() - ROOT\vendor\cakephp\bake\src\Shell\BakeShell.php, line 257
+Cake\Collection\Collection::each() - CORE\src\Collection\CollectionTrait.php, line 51
+Bake\Shell\BakeShell::all() - ROOT\vendor\cakephp\bake\src\Shell\BakeShell.php, line 258
+Cake\Console\Shell::runCommand() - CORE\src\Console\Shell.php, line 494
+Cake\Console\CommandRunner::run() - CORE\src\Console\CommandRunner.php, line 140
+[main] - ROOT\bin\cake.php, line 12
+
+
+
+2017-09-19 11:45:57 Notice: Notice (8): Undefined index: Products in [C:\xampp\htdocs\new_era_industries\tmp\bake\Bake-Model-table-ctp.php, line 21]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - CORE\src\Error\BaseErrorHandler.php, line 153
+include - ROOT\tmp\bake\Bake-Model-table-ctp.php, line 21
+Bake\View\BakeView::_evaluate() - ROOT\vendor\cakephp\bake\src\View\BakeView.php, line 204
+Cake\View\View::_render() - CORE\src\View\View.php, line 1157
+Bake\View\BakeView::render() - ROOT\vendor\cakephp\bake\src\View\BakeView.php, line 140
+Bake\Shell\Task\BakeTemplateTask::generate() - ROOT\vendor\cakephp\bake\src\Shell\Task\BakeTemplateTask.php, line 88
+Bake\Shell\Task\ModelTask::bakeTable() - ROOT\vendor\cakephp\bake\src\Shell\Task\ModelTask.php, line 947
+Bake\Shell\Task\ModelTask::bake() - ROOT\vendor\cakephp\bake\src\Shell\Task\ModelTask.php, line 111
+Bake\Shell\Task\ModelTask::main() - ROOT\vendor\cakephp\bake\src\Shell\Task\ModelTask.php, line 97
+Bake\Shell\BakeShell::Bake\Shell\{closure}() - ROOT\vendor\cakephp\bake\src\Shell\BakeShell.php, line 257
+Cake\Collection\Collection::each() - CORE\src\Collection\CollectionTrait.php, line 51
+Bake\Shell\BakeShell::all() - ROOT\vendor\cakephp\bake\src\Shell\BakeShell.php, line 258
+Cake\Console\Shell::runCommand() - CORE\src\Console\Shell.php, line 494
+Cake\Console\CommandRunner::run() - CORE\src\Console\CommandRunner.php, line 140
+[main] - ROOT\bin\cake.php, line 12
+
+
+
