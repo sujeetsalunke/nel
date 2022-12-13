@@ -1,0 +1,504 @@
+2022-12-13 14:00:53 Error: [Cake\Routing\Exception\MissingControllerException] Controller class Css could not be found.
+Request URL: /css/front_end1/jv-jquery-mobile-menu.css?url=css/front_end1/jv-jquery-mobile-menu.css
+Referer URL: http://localhost/bds/nel/
+Stack Trace:
+#0 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ControllerFactory.php(38): Cake\Http\ControllerFactory->missingController(Object(Cake\Http\ServerRequest))
+#1 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ActionDispatcher.php(90): Cake\Http\ControllerFactory->create(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#2 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/BaseApplication.php(103): Cake\Http\ActionDispatcher->dispatch(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#3 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Http\BaseApplication->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#4 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/RoutingMiddleware.php(107): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#5 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\RoutingMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#6 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/AssetMiddleware.php(97): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#7 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\AssetMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#8 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Error/Middleware/ErrorHandlerMiddleware.php(93): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#9 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Error\Middleware\ErrorHandlerMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#10 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(51): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#11 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Server.php(81): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#12 /Users/sskida/Sites/bds/nel/webroot/index.php(40): Cake\Http\Server->run()
+#13 /Users/sskida/Sites/bds/nel/index.php(16): require('/Users/sskida/S...')
+#14 {main}
+
+
+2022-12-13 14:00:53 Error: [Cake\Routing\Exception\MissingControllerException] Controller class Css could not be found.
+Request URL: /css/front_end1/scroll/jquery.fullPage.css?url=css/front_end1/scroll/jquery.fullPage.css
+Referer URL: http://localhost/bds/nel/
+Stack Trace:
+#0 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ControllerFactory.php(38): Cake\Http\ControllerFactory->missingController(Object(Cake\Http\ServerRequest))
+#1 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ActionDispatcher.php(90): Cake\Http\ControllerFactory->create(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#2 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/BaseApplication.php(103): Cake\Http\ActionDispatcher->dispatch(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#3 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Http\BaseApplication->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#4 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/RoutingMiddleware.php(107): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#5 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\RoutingMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#6 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/AssetMiddleware.php(97): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#7 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\AssetMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#8 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Error/Middleware/ErrorHandlerMiddleware.php(93): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#9 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Error\Middleware\ErrorHandlerMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#10 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(51): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#11 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Server.php(81): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#12 /Users/sskida/Sites/bds/nel/webroot/index.php(40): Cake\Http\Server->run()
+#13 /Users/sskida/Sites/bds/nel/index.php(16): require('/Users/sskida/S...')
+#14 {main}
+
+
+2022-12-13 14:00:53 Error: [Cake\Routing\Exception\MissingControllerException] Controller class Css could not be found.
+Request URL: /css/front_end1/aos.css?url=css/front_end1/aos.css
+Referer URL: http://localhost/bds/nel/
+Stack Trace:
+#0 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ControllerFactory.php(38): Cake\Http\ControllerFactory->missingController(Object(Cake\Http\ServerRequest))
+#1 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ActionDispatcher.php(90): Cake\Http\ControllerFactory->create(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#2 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/BaseApplication.php(103): Cake\Http\ActionDispatcher->dispatch(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#3 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Http\BaseApplication->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#4 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/RoutingMiddleware.php(107): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#5 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\RoutingMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#6 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/AssetMiddleware.php(97): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#7 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\AssetMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#8 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Error/Middleware/ErrorHandlerMiddleware.php(93): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#9 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Error\Middleware\ErrorHandlerMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#10 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(51): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#11 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Server.php(81): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#12 /Users/sskida/Sites/bds/nel/webroot/index.php(40): Cake\Http\Server->run()
+#13 /Users/sskida/Sites/bds/nel/index.php(16): require('/Users/sskida/S...')
+#14 {main}
+
+
+2022-12-13 14:00:53 Error: [Cake\Routing\Exception\MissingControllerException] Controller class Css could not be found.
+Request URL: /css/front_end1/owl.carousel.min.css?url=css/front_end1/owl.carousel.min.css
+Referer URL: http://localhost/bds/nel/
+Stack Trace:
+#0 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ControllerFactory.php(38): Cake\Http\ControllerFactory->missingController(Object(Cake\Http\ServerRequest))
+#1 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ActionDispatcher.php(90): Cake\Http\ControllerFactory->create(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#2 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/BaseApplication.php(103): Cake\Http\ActionDispatcher->dispatch(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#3 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Http\BaseApplication->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#4 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/RoutingMiddleware.php(107): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#5 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\RoutingMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#6 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/AssetMiddleware.php(97): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#7 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\AssetMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#8 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Error/Middleware/ErrorHandlerMiddleware.php(93): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#9 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Error\Middleware\ErrorHandlerMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#10 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(51): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#11 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Server.php(81): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#12 /Users/sskida/Sites/bds/nel/webroot/index.php(40): Cake\Http\Server->run()
+#13 /Users/sskida/Sites/bds/nel/index.php(16): require('/Users/sskida/S...')
+#14 {main}
+
+
+2022-12-13 14:00:53 Error: [Cake\Routing\Exception\MissingControllerException] Controller class Css could not be found.
+Request URL: /css/front_end1/bootstrap.min.css?url=css/front_end1/bootstrap.min.css
+Referer URL: http://localhost/bds/nel/
+Stack Trace:
+#0 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ControllerFactory.php(38): Cake\Http\ControllerFactory->missingController(Object(Cake\Http\ServerRequest))
+#1 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ActionDispatcher.php(90): Cake\Http\ControllerFactory->create(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#2 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/BaseApplication.php(103): Cake\Http\ActionDispatcher->dispatch(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#3 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Http\BaseApplication->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#4 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/RoutingMiddleware.php(107): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#5 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\RoutingMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#6 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/AssetMiddleware.php(97): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#7 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\AssetMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#8 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Error/Middleware/ErrorHandlerMiddleware.php(93): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#9 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Error\Middleware\ErrorHandlerMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#10 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(51): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#11 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Server.php(81): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#12 /Users/sskida/Sites/bds/nel/webroot/index.php(40): Cake\Http\Server->run()
+#13 /Users/sskida/Sites/bds/nel/index.php(16): require('/Users/sskida/S...')
+#14 {main}
+
+
+2022-12-13 14:00:53 Error: [Cake\Routing\Exception\MissingControllerException] Controller class Css could not be found.
+Request URL: /css/front_end1/jquery.mCustomScrollbar.min.css?url=css/front_end1/jquery.mCustomScrollbar.min.css
+Referer URL: http://localhost/bds/nel/
+Stack Trace:
+#0 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ControllerFactory.php(38): Cake\Http\ControllerFactory->missingController(Object(Cake\Http\ServerRequest))
+#1 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ActionDispatcher.php(90): Cake\Http\ControllerFactory->create(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#2 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/BaseApplication.php(103): Cake\Http\ActionDispatcher->dispatch(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#3 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Http\BaseApplication->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#4 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/RoutingMiddleware.php(107): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#5 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\RoutingMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#6 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/AssetMiddleware.php(97): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#7 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\AssetMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#8 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Error/Middleware/ErrorHandlerMiddleware.php(93): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#9 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Error\Middleware\ErrorHandlerMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#10 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(51): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#11 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Server.php(81): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#12 /Users/sskida/Sites/bds/nel/webroot/index.php(40): Cake\Http\Server->run()
+#13 /Users/sskida/Sites/bds/nel/index.php(16): require('/Users/sskida/S...')
+#14 {main}
+
+
+2022-12-13 14:00:53 Error: [Cake\Routing\Exception\MissingControllerException] Controller class Css could not be found.
+Request URL: /css/front_end1/sweetalert.css?url=css/front_end1/sweetalert.css
+Referer URL: http://localhost/bds/nel/
+Stack Trace:
+#0 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ControllerFactory.php(38): Cake\Http\ControllerFactory->missingController(Object(Cake\Http\ServerRequest))
+#1 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ActionDispatcher.php(90): Cake\Http\ControllerFactory->create(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#2 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/BaseApplication.php(103): Cake\Http\ActionDispatcher->dispatch(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#3 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Http\BaseApplication->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#4 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/RoutingMiddleware.php(107): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#5 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\RoutingMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#6 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/AssetMiddleware.php(97): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#7 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\AssetMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#8 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Error/Middleware/ErrorHandlerMiddleware.php(93): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#9 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Error\Middleware\ErrorHandlerMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#10 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(51): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#11 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Server.php(81): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#12 /Users/sskida/Sites/bds/nel/webroot/index.php(40): Cake\Http\Server->run()
+#13 /Users/sskida/Sites/bds/nel/index.php(16): require('/Users/sskida/S...')
+#14 {main}
+
+
+2022-12-13 14:00:53 Error: [Cake\Routing\Exception\MissingControllerException] Controller class Css could not be found.
+Request URL: /css/front_end1/main-slider.css?url=css/front_end1/main-slider.css
+Referer URL: http://localhost/bds/nel/
+Stack Trace:
+#0 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ControllerFactory.php(38): Cake\Http\ControllerFactory->missingController(Object(Cake\Http\ServerRequest))
+#1 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ActionDispatcher.php(90): Cake\Http\ControllerFactory->create(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#2 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/BaseApplication.php(103): Cake\Http\ActionDispatcher->dispatch(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#3 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Http\BaseApplication->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#4 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/RoutingMiddleware.php(107): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#5 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\RoutingMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#6 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/AssetMiddleware.php(97): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#7 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\AssetMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#8 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Error/Middleware/ErrorHandlerMiddleware.php(93): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#9 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Error\Middleware\ErrorHandlerMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#10 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(51): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#11 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Server.php(81): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#12 /Users/sskida/Sites/bds/nel/webroot/index.php(40): Cake\Http\Server->run()
+#13 /Users/sskida/Sites/bds/nel/index.php(16): require('/Users/sskida/S...')
+#14 {main}
+
+
+2022-12-13 14:00:53 Error: [Cake\Routing\Exception\MissingControllerException] Controller class Css could not be found.
+Request URL: /css/front_end1/stylesheet.css?url=css/front_end1/stylesheet.css
+Referer URL: http://localhost/bds/nel/
+Stack Trace:
+#0 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ControllerFactory.php(38): Cake\Http\ControllerFactory->missingController(Object(Cake\Http\ServerRequest))
+#1 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ActionDispatcher.php(90): Cake\Http\ControllerFactory->create(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#2 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/BaseApplication.php(103): Cake\Http\ActionDispatcher->dispatch(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#3 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Http\BaseApplication->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#4 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/RoutingMiddleware.php(107): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#5 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\RoutingMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#6 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/AssetMiddleware.php(97): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#7 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\AssetMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#8 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Error/Middleware/ErrorHandlerMiddleware.php(93): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#9 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Error\Middleware\ErrorHandlerMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#10 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(51): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#11 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Server.php(81): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#12 /Users/sskida/Sites/bds/nel/webroot/index.php(40): Cake\Http\Server->run()
+#13 /Users/sskida/Sites/bds/nel/index.php(16): require('/Users/sskida/S...')
+#14 {main}
+
+
+2022-12-13 14:00:53 Error: [Cake\Routing\Exception\MissingControllerException] Controller class Css could not be found.
+Request URL: /css/front_end1/stylesheet-desktop.css?url=css/front_end1/stylesheet-desktop.css
+Referer URL: http://localhost/bds/nel/
+Stack Trace:
+#0 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ControllerFactory.php(38): Cake\Http\ControllerFactory->missingController(Object(Cake\Http\ServerRequest))
+#1 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ActionDispatcher.php(90): Cake\Http\ControllerFactory->create(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#2 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/BaseApplication.php(103): Cake\Http\ActionDispatcher->dispatch(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#3 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Http\BaseApplication->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#4 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/RoutingMiddleware.php(107): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#5 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\RoutingMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#6 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/AssetMiddleware.php(97): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#7 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\AssetMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#8 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Error/Middleware/ErrorHandlerMiddleware.php(93): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#9 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Error\Middleware\ErrorHandlerMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#10 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(51): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#11 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Server.php(81): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#12 /Users/sskida/Sites/bds/nel/webroot/index.php(40): Cake\Http\Server->run()
+#13 /Users/sskida/Sites/bds/nel/index.php(16): require('/Users/sskida/S...')
+#14 {main}
+
+
+2022-12-13 14:00:53 Error: [Cake\Routing\Exception\MissingControllerException] Controller class Css could not be found.
+Request URL: /css/front_end1/owl.theme.default.min.css?url=css/front_end1/owl.theme.default.min.css
+Referer URL: http://localhost/bds/nel/
+Stack Trace:
+#0 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ControllerFactory.php(38): Cake\Http\ControllerFactory->missingController(Object(Cake\Http\ServerRequest))
+#1 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ActionDispatcher.php(90): Cake\Http\ControllerFactory->create(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#2 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/BaseApplication.php(103): Cake\Http\ActionDispatcher->dispatch(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#3 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Http\BaseApplication->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#4 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/RoutingMiddleware.php(107): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#5 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\RoutingMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#6 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/AssetMiddleware.php(97): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#7 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\AssetMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#8 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Error/Middleware/ErrorHandlerMiddleware.php(93): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#9 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Error\Middleware\ErrorHandlerMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#10 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(51): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#11 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Server.php(81): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#12 /Users/sskida/Sites/bds/nel/webroot/index.php(40): Cake\Http\Server->run()
+#13 /Users/sskida/Sites/bds/nel/index.php(16): require('/Users/sskida/S...')
+#14 {main}
+
+
+2022-12-13 14:00:53 Error: [Cake\Routing\Exception\MissingControllerException] Controller class Css could not be found.
+Request URL: /css/back_end/bvalidator.css?url=css/back_end/bvalidator.css
+Referer URL: http://localhost/bds/nel/
+Stack Trace:
+#0 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ControllerFactory.php(38): Cake\Http\ControllerFactory->missingController(Object(Cake\Http\ServerRequest))
+#1 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ActionDispatcher.php(90): Cake\Http\ControllerFactory->create(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#2 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/BaseApplication.php(103): Cake\Http\ActionDispatcher->dispatch(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#3 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Http\BaseApplication->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#4 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/RoutingMiddleware.php(107): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#5 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\RoutingMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#6 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/AssetMiddleware.php(97): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#7 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\AssetMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#8 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Error/Middleware/ErrorHandlerMiddleware.php(93): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#9 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Error\Middleware\ErrorHandlerMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#10 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(51): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#11 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Server.php(81): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#12 /Users/sskida/Sites/bds/nel/webroot/index.php(40): Cake\Http\Server->run()
+#13 /Users/sskida/Sites/bds/nel/index.php(16): require('/Users/sskida/S...')
+#14 {main}
+
+
+2022-12-13 14:28:51 Error: [Cake\Routing\Exception\MissingControllerException] Controller class Css could not be found.
+Request URL: /css/front_end1/aos.css?url=css/front_end1/aos.css
+Referer URL: http://localhost/bds/nel/
+Stack Trace:
+#0 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ControllerFactory.php(38): Cake\Http\ControllerFactory->missingController(Object(Cake\Http\ServerRequest))
+#1 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ActionDispatcher.php(90): Cake\Http\ControllerFactory->create(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#2 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/BaseApplication.php(103): Cake\Http\ActionDispatcher->dispatch(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#3 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Http\BaseApplication->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#4 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/RoutingMiddleware.php(107): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#5 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\RoutingMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#6 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/AssetMiddleware.php(97): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#7 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\AssetMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#8 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Error/Middleware/ErrorHandlerMiddleware.php(93): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#9 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Error\Middleware\ErrorHandlerMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#10 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(51): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#11 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Server.php(81): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#12 /Users/sskida/Sites/bds/nel/webroot/index.php(40): Cake\Http\Server->run()
+#13 /Users/sskida/Sites/bds/nel/index.php(16): require('/Users/sskida/S...')
+#14 {main}
+
+
+2022-12-13 14:28:51 Error: [Cake\Routing\Exception\MissingControllerException] Controller class Css could not be found.
+Request URL: /css/front_end1/scroll/jquery.fullPage.css?url=css/front_end1/scroll/jquery.fullPage.css
+Referer URL: http://localhost/bds/nel/
+Stack Trace:
+#0 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ControllerFactory.php(38): Cake\Http\ControllerFactory->missingController(Object(Cake\Http\ServerRequest))
+#1 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ActionDispatcher.php(90): Cake\Http\ControllerFactory->create(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#2 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/BaseApplication.php(103): Cake\Http\ActionDispatcher->dispatch(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#3 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Http\BaseApplication->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#4 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/RoutingMiddleware.php(107): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#5 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\RoutingMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#6 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/AssetMiddleware.php(97): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#7 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\AssetMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#8 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Error/Middleware/ErrorHandlerMiddleware.php(93): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#9 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Error\Middleware\ErrorHandlerMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#10 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(51): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#11 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Server.php(81): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#12 /Users/sskida/Sites/bds/nel/webroot/index.php(40): Cake\Http\Server->run()
+#13 /Users/sskida/Sites/bds/nel/index.php(16): require('/Users/sskida/S...')
+#14 {main}
+
+
+2022-12-13 14:28:51 Error: [Cake\Routing\Exception\MissingControllerException] Controller class Css could not be found.
+Request URL: /css/front_end1/bootstrap.min.css?url=css/front_end1/bootstrap.min.css
+Referer URL: http://localhost/bds/nel/
+Stack Trace:
+#0 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ControllerFactory.php(38): Cake\Http\ControllerFactory->missingController(Object(Cake\Http\ServerRequest))
+#1 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ActionDispatcher.php(90): Cake\Http\ControllerFactory->create(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#2 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/BaseApplication.php(103): Cake\Http\ActionDispatcher->dispatch(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#3 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Http\BaseApplication->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#4 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/RoutingMiddleware.php(107): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#5 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\RoutingMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#6 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/AssetMiddleware.php(97): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#7 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\AssetMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#8 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Error/Middleware/ErrorHandlerMiddleware.php(93): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#9 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Error\Middleware\ErrorHandlerMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#10 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(51): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#11 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Server.php(81): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#12 /Users/sskida/Sites/bds/nel/webroot/index.php(40): Cake\Http\Server->run()
+#13 /Users/sskida/Sites/bds/nel/index.php(16): require('/Users/sskida/S...')
+#14 {main}
+
+
+2022-12-13 14:28:51 Error: [Cake\Routing\Exception\MissingControllerException] Controller class Css could not be found.
+Request URL: /css/front_end1/jquery.mCustomScrollbar.min.css?url=css/front_end1/jquery.mCustomScrollbar.min.css
+Referer URL: http://localhost/bds/nel/
+Stack Trace:
+#0 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ControllerFactory.php(38): Cake\Http\ControllerFactory->missingController(Object(Cake\Http\ServerRequest))
+#1 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ActionDispatcher.php(90): Cake\Http\ControllerFactory->create(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#2 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/BaseApplication.php(103): Cake\Http\ActionDispatcher->dispatch(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#3 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Http\BaseApplication->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#4 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/RoutingMiddleware.php(107): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#5 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\RoutingMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#6 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/AssetMiddleware.php(97): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#7 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\AssetMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#8 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Error/Middleware/ErrorHandlerMiddleware.php(93): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#9 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Error\Middleware\ErrorHandlerMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#10 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(51): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#11 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Server.php(81): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#12 /Users/sskida/Sites/bds/nel/webroot/index.php(40): Cake\Http\Server->run()
+#13 /Users/sskida/Sites/bds/nel/index.php(16): require('/Users/sskida/S...')
+#14 {main}
+
+
+2022-12-13 14:28:51 Error: [Cake\Routing\Exception\MissingControllerException] Controller class Css could not be found.
+Request URL: /css/front_end1/owl.theme.default.min.css?url=css/front_end1/owl.theme.default.min.css
+Referer URL: http://localhost/bds/nel/
+Stack Trace:
+#0 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ControllerFactory.php(38): Cake\Http\ControllerFactory->missingController(Object(Cake\Http\ServerRequest))
+#1 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ActionDispatcher.php(90): Cake\Http\ControllerFactory->create(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#2 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/BaseApplication.php(103): Cake\Http\ActionDispatcher->dispatch(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#3 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Http\BaseApplication->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#4 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/RoutingMiddleware.php(107): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#5 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\RoutingMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#6 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/AssetMiddleware.php(97): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#7 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\AssetMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#8 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Error/Middleware/ErrorHandlerMiddleware.php(93): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#9 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Error\Middleware\ErrorHandlerMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#10 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(51): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#11 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Server.php(81): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#12 /Users/sskida/Sites/bds/nel/webroot/index.php(40): Cake\Http\Server->run()
+#13 /Users/sskida/Sites/bds/nel/index.php(16): require('/Users/sskida/S...')
+#14 {main}
+
+
+2022-12-13 14:28:51 Error: [Cake\Routing\Exception\MissingControllerException] Controller class Css could not be found.
+Request URL: /css/front_end1/jv-jquery-mobile-menu.css?url=css/front_end1/jv-jquery-mobile-menu.css
+Referer URL: http://localhost/bds/nel/
+Stack Trace:
+#0 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ControllerFactory.php(38): Cake\Http\ControllerFactory->missingController(Object(Cake\Http\ServerRequest))
+#1 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ActionDispatcher.php(90): Cake\Http\ControllerFactory->create(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#2 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/BaseApplication.php(103): Cake\Http\ActionDispatcher->dispatch(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#3 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Http\BaseApplication->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#4 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/RoutingMiddleware.php(107): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#5 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\RoutingMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#6 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/AssetMiddleware.php(97): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#7 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\AssetMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#8 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Error/Middleware/ErrorHandlerMiddleware.php(93): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#9 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Error\Middleware\ErrorHandlerMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#10 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(51): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#11 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Server.php(81): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#12 /Users/sskida/Sites/bds/nel/webroot/index.php(40): Cake\Http\Server->run()
+#13 /Users/sskida/Sites/bds/nel/index.php(16): require('/Users/sskida/S...')
+#14 {main}
+
+
+2022-12-13 14:28:51 Error: [Cake\Routing\Exception\MissingControllerException] Controller class Css could not be found.
+Request URL: /css/front_end1/stylesheet-desktop.css?url=css/front_end1/stylesheet-desktop.css
+Referer URL: http://localhost/bds/nel/
+Stack Trace:
+#0 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ControllerFactory.php(38): Cake\Http\ControllerFactory->missingController(Object(Cake\Http\ServerRequest))
+#1 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ActionDispatcher.php(90): Cake\Http\ControllerFactory->create(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#2 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/BaseApplication.php(103): Cake\Http\ActionDispatcher->dispatch(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#3 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Http\BaseApplication->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#4 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/RoutingMiddleware.php(107): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#5 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\RoutingMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#6 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/AssetMiddleware.php(97): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#7 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\AssetMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#8 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Error/Middleware/ErrorHandlerMiddleware.php(93): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#9 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Error\Middleware\ErrorHandlerMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#10 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(51): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#11 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Server.php(81): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#12 /Users/sskida/Sites/bds/nel/webroot/index.php(40): Cake\Http\Server->run()
+#13 /Users/sskida/Sites/bds/nel/index.php(16): require('/Users/sskida/S...')
+#14 {main}
+
+
+2022-12-13 14:28:51 Error: [Cake\Routing\Exception\MissingControllerException] Controller class Css could not be found.
+Request URL: /css/back_end/bvalidator.css?url=css/back_end/bvalidator.css
+Referer URL: http://localhost/bds/nel/
+Stack Trace:
+#0 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ControllerFactory.php(38): Cake\Http\ControllerFactory->missingController(Object(Cake\Http\ServerRequest))
+#1 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ActionDispatcher.php(90): Cake\Http\ControllerFactory->create(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#2 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/BaseApplication.php(103): Cake\Http\ActionDispatcher->dispatch(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#3 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Http\BaseApplication->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#4 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/RoutingMiddleware.php(107): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#5 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\RoutingMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#6 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/AssetMiddleware.php(97): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#7 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\AssetMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#8 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Error/Middleware/ErrorHandlerMiddleware.php(93): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#9 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Error\Middleware\ErrorHandlerMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#10 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(51): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#11 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Server.php(81): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#12 /Users/sskida/Sites/bds/nel/webroot/index.php(40): Cake\Http\Server->run()
+#13 /Users/sskida/Sites/bds/nel/index.php(16): require('/Users/sskida/S...')
+#14 {main}
+
+
+2022-12-13 14:28:51 Error: [Cake\Routing\Exception\MissingControllerException] Controller class Css could not be found.
+Request URL: /css/front_end1/main-slider.css?url=css/front_end1/main-slider.css
+Referer URL: http://localhost/bds/nel/
+Stack Trace:
+#0 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ControllerFactory.php(38): Cake\Http\ControllerFactory->missingController(Object(Cake\Http\ServerRequest))
+#1 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ActionDispatcher.php(90): Cake\Http\ControllerFactory->create(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#2 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/BaseApplication.php(103): Cake\Http\ActionDispatcher->dispatch(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#3 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Http\BaseApplication->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#4 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/RoutingMiddleware.php(107): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#5 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\RoutingMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#6 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/AssetMiddleware.php(97): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#7 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\AssetMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#8 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Error/Middleware/ErrorHandlerMiddleware.php(93): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#9 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Error\Middleware\ErrorHandlerMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#10 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(51): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#11 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Server.php(81): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#12 /Users/sskida/Sites/bds/nel/webroot/index.php(40): Cake\Http\Server->run()
+#13 /Users/sskida/Sites/bds/nel/index.php(16): require('/Users/sskida/S...')
+#14 {main}
+
+
+2022-12-13 14:28:51 Error: [Cake\Routing\Exception\MissingControllerException] Controller class Css could not be found.
+Request URL: /css/front_end1/sweetalert.css?url=css/front_end1/sweetalert.css
+Referer URL: http://localhost/bds/nel/
+Stack Trace:
+#0 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ControllerFactory.php(38): Cake\Http\ControllerFactory->missingController(Object(Cake\Http\ServerRequest))
+#1 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ActionDispatcher.php(90): Cake\Http\ControllerFactory->create(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#2 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/BaseApplication.php(103): Cake\Http\ActionDispatcher->dispatch(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#3 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Http\BaseApplication->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#4 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/RoutingMiddleware.php(107): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#5 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\RoutingMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#6 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/AssetMiddleware.php(97): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#7 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\AssetMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#8 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Error/Middleware/ErrorHandlerMiddleware.php(93): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#9 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Error\Middleware\ErrorHandlerMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#10 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(51): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#11 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Server.php(81): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#12 /Users/sskida/Sites/bds/nel/webroot/index.php(40): Cake\Http\Server->run()
+#13 /Users/sskida/Sites/bds/nel/index.php(16): require('/Users/sskida/S...')
+#14 {main}
+
+
+2022-12-13 14:28:51 Error: [Cake\Routing\Exception\MissingControllerException] Controller class Css could not be found.
+Request URL: /css/front_end1/stylesheet.css?url=css/front_end1/stylesheet.css
+Referer URL: http://localhost/bds/nel/
+Stack Trace:
+#0 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ControllerFactory.php(38): Cake\Http\ControllerFactory->missingController(Object(Cake\Http\ServerRequest))
+#1 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ActionDispatcher.php(90): Cake\Http\ControllerFactory->create(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#2 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/BaseApplication.php(103): Cake\Http\ActionDispatcher->dispatch(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#3 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Http\BaseApplication->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#4 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/RoutingMiddleware.php(107): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#5 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\RoutingMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#6 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/AssetMiddleware.php(97): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#7 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\AssetMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#8 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Error/Middleware/ErrorHandlerMiddleware.php(93): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#9 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Error\Middleware\ErrorHandlerMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#10 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(51): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#11 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Server.php(81): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#12 /Users/sskida/Sites/bds/nel/webroot/index.php(40): Cake\Http\Server->run()
+#13 /Users/sskida/Sites/bds/nel/index.php(16): require('/Users/sskida/S...')
+#14 {main}
+
+
+2022-12-13 14:28:52 Error: [Cake\Routing\Exception\MissingControllerException] Controller class Css could not be found.
+Request URL: /css/front_end1/owl.carousel.min.css?url=css/front_end1/owl.carousel.min.css
+Referer URL: http://localhost/bds/nel/
+Stack Trace:
+#0 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ControllerFactory.php(38): Cake\Http\ControllerFactory->missingController(Object(Cake\Http\ServerRequest))
+#1 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/ActionDispatcher.php(90): Cake\Http\ControllerFactory->create(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#2 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/BaseApplication.php(103): Cake\Http\ActionDispatcher->dispatch(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#3 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Http\BaseApplication->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#4 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/RoutingMiddleware.php(107): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#5 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\RoutingMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#6 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Routing/Middleware/AssetMiddleware.php(97): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#7 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Routing\Middleware\AssetMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#8 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Error/Middleware/ErrorHandlerMiddleware.php(93): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#9 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(65): Cake\Error\Middleware\ErrorHandlerMiddleware->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response), Object(Cake\Http\Runner))
+#10 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Runner.php(51): Cake\Http\Runner->__invoke(Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#11 /Users/sskida/Sites/bds/nel/vendor/cakephp/cakephp/src/Http/Server.php(81): Cake\Http\Runner->run(Object(Cake\Http\MiddlewareQueue), Object(Cake\Http\ServerRequest), Object(Cake\Http\Response))
+#12 /Users/sskida/Sites/bds/nel/webroot/index.php(40): Cake\Http\Server->run()
+#13 /Users/sskida/Sites/bds/nel/index.php(16): require('/Users/sskida/S...')
+#14 {main}
+
+
