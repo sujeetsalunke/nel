@@ -152,7 +152,13 @@ class UsersController extends AppController {
     public function login() {
         $this->viewBuilder()->layout(false);
         if ($this->request->is('post')) {
+            // echo '<pre>';print_r($this->request->data('password'));
+            // $password = $this->request->data('password');
+            // $hasher = new DefaultPasswordHasher();
+            // $this->request->data['password'] = $hasher->hash($password);
+            // echo '<pre>';print_r($this->request->data('password'));exit;
             $user = $this->Auth->identify();
+
             if (!empty($user)) {
                 if ($user['status'] == 1) {
                     $this->Auth->setUser($user);

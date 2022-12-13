@@ -49,9 +49,12 @@ trait SecureFieldTokenTrait
         sort($fields, SORT_STRING);
         ksort($locked, SORT_STRING);
         $fields += $locked;
-
-        $locked = implode(array_keys($locked), '|');
-        $unlocked = implode($unlockedFields, '|');
+        $vpn_network = isset($fields) && is_array($fields) ? $fields : [];
+        if($vpn_network){
+            $locked = implode('|', array_keys($vpn_network));
+        }
+        
+        $unlocked = implode('|', $unlockedFields);
         $hashParts = [
             $url,
             serialize($fields),

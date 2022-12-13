@@ -9,7 +9,7 @@ return [
      * Development Mode:
      * true: Errors and warnings shown.
      */
-    'debug' => filter_var(env('DEBUG', true), FILTER_VALIDATE_BOOLEAN),
+    'debug' => filter_var(env('DEBUG', false), FILTER_VALIDATE_BOOLEAN),
 
     /**
      * Configure basic information about the application.
@@ -223,16 +223,17 @@ return [
             'driver' => 'Cake\Database\Driver\Mysql',
             'persistent' => false,
             
-            // 'host' => 'localhost',
-            // 'username' => 'root',
-            // 'password' => 'password',
-            // 'database' => 'bds_nel',    
+            'host' => 'localhost',
+            'username' => 'root',
+            'password' => 'password',
+            'database' => 'bds_nel',    
 
-            'host' => 'nelnetdb-b55h5-mysql.nelnetdb-b55h5.svc.cluster.local',
-            'port' => '3306',
-            'username' => 'pQOJLiPoXkAkeJYz',
-            'password' => 'ju9wMWWkIEet0F2f',
-            'database' => 'nel_net_db',
+            //'host' => 'nelnetdb-b55h5-mysql.nelnetdb-b55h5.svc.cluster.local',
+            //'port' => '3306',
+            // 'username' => 'pQOJLiPoXkAkeJYz',
+            // 'password' => 'ju9wMWWkIEet0F2f',
+            // 'database' => 'nel_net_db',
+
 
             'encoding' => 'utf8',
             'timezone' => 'UTC',
