@@ -222,17 +222,18 @@ return [
             'className' => 'Cake\Database\Connection',
             'driver' => 'Cake\Database\Driver\Mysql',
             'persistent' => false,
-            // 'host' => 'localhost',
-            // 'username' => 'root',
-            // 'password' => 'password',
-            // 'database' => 'bds_nel',
+            'host' => 'localhost',
+            'username' => 'root',
+            'password' => 'password',
+            'database' => 'bds_nel',    
 
-            'host' => 'nelnetdb-b55h5-mysql.nelnetdb-b55h5.svc.cluster.local',
-            'port' => '3306',
-            'username' => 'pQOJLiPoXkAkeJYz',
-            'password' => 'ju9wMWWkIEet0F2f',
-            'database' => 'nel_net_db',
-            
+            //'host' => 'localhost',
+            //'port' => 'non_standard_port_number',
+            // 'username' => 'new_era_indus',
+            // 'password' => '01{rhpI[!]gw',
+            // 'database' => 'new_db_era',
+
+
             'encoding' => 'utf8',
             'timezone' => 'UTC',
             'flags' => [],
