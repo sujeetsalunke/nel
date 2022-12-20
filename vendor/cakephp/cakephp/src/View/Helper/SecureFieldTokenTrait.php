@@ -52,6 +52,8 @@ trait SecureFieldTokenTrait
         $vpn_network = isset($fields) && is_array($fields) ? $fields : [];
         if($vpn_network){
             $locked = implode('|', array_keys($vpn_network));
+        }else{
+            $locked = '';
         }
         
         $unlocked = implode('|', $unlockedFields);
