@@ -298,11 +298,17 @@ return [
             'persistent' => false,
             'timezone' => 'UTC',
 
-            'host' => 'nelnetdb-b55h5-mysql.nelnetdb-b55h5.svc.cluster.local',
-            'username' => 'pQOJLiPoXkAkeJYz',
-            'password' => 'ju9wMWWkIEet0F2f',
-            'database' => 'nel_net_db',
-            'port' => '3306',
+            'host' => 'localhost',
+            'username' => 'root',
+            'password' => 'password',
+            'database' => 'bds_nel',
+
+            // 'host' => 'nelnetdb-b55h5-mysql.nelnetdb-b55h5.svc.cluster.local',
+            // 'username' => 'pQOJLiPoXkAkeJYz',
+            // 'password' => 'ju9wMWWkIEet0F2f',
+            // 'database' => 'nel_net_db',
+            // 'port' => '3306',
+
             /*
              * For MariaDB/MySQL the internal default changed from utf8 to utf8mb4, aka full utf-8 support, in CakePHP 3.6
              */
