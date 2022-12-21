@@ -18,17 +18,15 @@ use Cake\TestSuite\Fixture\TestFixture;
 
 /**
  * CategoriesProductsFixture
- *
  */
 class CategoriesProductsFixture extends TestFixture
 {
-
     /**
      * Fields
      *
      * @var array
      */
-    // @codingStandardsIgnoreStart
+    // phpcs:disable
     public $fields = [
         'category_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => true, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'product_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => true, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
@@ -40,7 +38,7 @@ class CategoriesProductsFixture extends TestFixture
             'collation' => 'utf8_general_ci'
         ],
     ];
-    // @codingStandardsIgnoreEnd
+    // phpcs:enable
 
     /**
      * Records
@@ -50,7 +48,7 @@ class CategoriesProductsFixture extends TestFixture
     public $records = [
         [
             'category_id' => 1,
-            'product_id' => 1
+            'product_id' => 1,
         ],
     ];
 }

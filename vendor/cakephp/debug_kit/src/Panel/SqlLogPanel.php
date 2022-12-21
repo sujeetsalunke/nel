@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
@@ -13,18 +15,19 @@
 namespace DebugKit\Panel;
 
 use Cake\Core\Configure;
+use Cake\Datasource\ConnectionInterface;
 use Cake\Datasource\ConnectionManager;
+use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\ORM\Table;
-use Cake\ORM\TableRegistry;
 use DebugKit\Database\Log\DebugLog;
 use DebugKit\DebugPanel;
 
 /**
  * Provides debug information on the SQL logs and provides links to an ajax explain interface.
- *
  */
 class SqlLogPanel extends DebugPanel
 {
+    use LocatorAwareTrait;
 
     /**
      * Loggers connected
@@ -48,12 +51,15 @@ class SqlLogPanel extends DebugPanel
 
         foreach ($configs as $name) {
             $connection = ConnectionManager::get($name);
-            if ($connection->configName() === 'debug_kit') {
+            if (
+                $connection->configName() === 'debug_kit'
+                || !$connection instanceof ConnectionInterface
+            ) {
                 continue;
             }
             $logger = null;
-            if ($connection->logQueries()) {
-                $logger = $connection->logger();
+            if ($connection->isQueryLoggingEnabled()) {
+                $logger = $connection->getLogger();
             }
 
             if ($logger instanceof DebugLog) {
@@ -63,8 +69,9 @@ class SqlLogPanel extends DebugPanel
             }
             $logger = new DebugLog($logger, $name, $includeSchemaReflection);
 
-            $connection->logQueries(true);
-            $connection->logger($logger);
+            $connection->enableQueryLogging(true);
+            $connection->setLogger($logger);
+
             $this->_loggers[] = $logger;
         }
     }
@@ -78,8 +85,8 @@ class SqlLogPanel extends DebugPanel
     {
         return [
             'tables' => array_map(function (Table $table) {
-                return $table->alias();
-            }, TableRegistry::genericInstances()),
+                return $table->getAlias();
+            }, $this->getTableLocator()->genericInstances()),
             'loggers' => $this->_loggers,
         ];
     }

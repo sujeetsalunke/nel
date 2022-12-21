@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -13,6 +15,9 @@
  */
 namespace Cake\Chronos\Traits;
 
+use Cake\Chronos\ChronosInterface;
+use ReturnTypeWillChange;
+
 /**
  * Methods for modifying/reading timezone data.
  */
@@ -24,7 +29,7 @@ trait TimezoneTrait
      * @param \DateTimeZone|string $value The DateTimeZone object or timezone name to use.
      * @return static
      */
-    public function timezone($value)
+    public function timezone($value): ChronosInterface
     {
         return $this->setTimezone($value);
     }
@@ -35,7 +40,7 @@ trait TimezoneTrait
      * @param \DateTimeZone|string $value The DateTimeZone object or timezone name to use.
      * @return static
      */
-    public function tz($value)
+    public function tz($value): ChronosInterface
     {
         return $this->setTimezone($value);
     }
@@ -46,15 +51,9 @@ trait TimezoneTrait
      * @param \DateTimeZone|string $value The DateTimeZone object or timezone name to use.
      * @return static
      */
-    public function setTimezone($value)
+    #[ReturnTypeWillChange]
+    public function setTimezone($value): ChronosInterface
     {
-        $date = parent::setTimezone(static::safeCreateDateTimeZone($value));
-
-        // https://bugs.php.net/bug.php?id=72338
-        // this is workaround for this bug
-        // Needed for PHP below 7.0 version
-        $date->getTimestamp();
-
-        return $date;
+        return parent::setTimezone(static::safeCreateDateTimeZone($value));
     }
 }

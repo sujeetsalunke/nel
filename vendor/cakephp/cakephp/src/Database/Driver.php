@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
@@ -14,22 +16,45 @@
  */
 namespace Cake\Database;
 
+use Cake\Core\App;
+use Cake\Core\Retry\CommandRetry;
+use Cake\Database\Exception\MissingConnectionException;
+use Cake\Database\Retry\ErrorCodeWaitStrategy;
+use Cake\Database\Schema\SchemaDialect;
+use Cake\Database\Schema\TableSchema;
+use Cake\Database\Statement\PDOStatement;
+use Closure;
 use InvalidArgumentException;
 use PDO;
+use PDOException;
 
 /**
  * Represents a database driver containing all specificities for
  * a database engine including its SQL dialect.
- *
- * @property \Cake\Datasource\ConnectionInterface $_connection
  */
-abstract class Driver
+abstract class Driver implements DriverInterface
 {
+    /**
+     * @var int|null Maximum alias length or null if no limit
+     */
+    protected const MAX_ALIAS_LENGTH = null;
+
+    /**
+     * @var array<int>  DB-specific error codes that allow connect retry
+     */
+    protected const RETRY_ERROR_CODES = [];
+
+    /**
+     * Instance of PDO.
+     *
+     * @var \PDO
+     */
+    protected $_connection;
 
     /**
      * Configuration data.
      *
-     * @var array
+     * @var array<string, mixed>
      */
     protected $_config;
 
@@ -37,12 +62,12 @@ abstract class Driver
      * Base configuration that is merged into the user
      * supplied configuration data.
      *
-     * @var array
+     * @var array<string, mixed>
      */
     protected $_baseConfig = [];
 
     /**
-     * Indicates whether or not the driver is doing automatic identifier quoting
+     * Indicates whether the driver is doing automatic identifier quoting
      * for all queries
      *
      * @var bool
@@ -50,12 +75,26 @@ abstract class Driver
     protected $_autoQuoting = false;
 
     /**
+     * The server version
+     *
+     * @var string|null
+     */
+    protected $_version;
+
+    /**
+     * The last number of connection retry attempts.
+     *
+     * @var int
+     */
+    protected $connectRetries = 0;
+
+    /**
      * Constructor
      *
-     * @param array $config The configuration for the driver.
+     * @param array<string, mixed> $config The configuration for the driver.
      * @throws \InvalidArgumentException
      */
-    public function __construct($config = [])
+    public function __construct(array $config = [])
     {
         if (empty($config['username']) && !empty($config['login'])) {
             throw new InvalidArgumentException(
@@ -72,177 +111,233 @@ abstract class Driver
     /**
      * Establishes a connection to the database server
      *
+     * @param string $dsn A Driver-specific PDO-DSN
+     * @param array<string, mixed> $config configuration to be used for creating connection
      * @return bool true on success
      */
-    abstract public function connect();
-
-    /**
-     * Disconnects from database server
-     *
-     * @return void
-     */
-    abstract public function disconnect();
-
-    /**
-     * Returns correct connection resource or object that is internally used
-     * If first argument is passed,
-     *
-     * @param null|\PDO $connection The connection object
-     * @return \PDO
-     */
-    abstract public function connection($connection = null);
-
-    /**
-     * Returns whether php is able to use this driver for connecting to database
-     *
-     * @return bool true if it is valid to use this driver
-     */
-    abstract public function enabled();
-
-    /**
-     * Prepares a sql statement to be executed
-     *
-     * @param string|\Cake\Database\Query $query The query to convert into a statement.
-     * @return \Cake\Database\StatementInterface
-     */
-    abstract public function prepare($query);
-
-    /**
-     * Starts a transaction
-     *
-     * @return bool true on success, false otherwise
-     */
-    abstract public function beginTransaction();
-
-    /**
-     * Commits a transaction
-     *
-     * @return bool true on success, false otherwise
-     */
-    abstract public function commitTransaction();
-
-    /**
-     * Rollsback a transaction
-     *
-     * @return bool true on success, false otherwise
-     */
-    abstract public function rollbackTransaction();
-
-    /**
-     * Get the SQL for releasing a save point.
-     *
-     * @param string $name The table name
-     * @return string
-     */
-    abstract public function releaseSavePointSQL($name);
-
-    /**
-     * Get the SQL for creating a save point.
-     *
-     * @param string $name The table name
-     * @return string
-     */
-    abstract public function savePointSQL($name);
-
-    /**
-     * Get the SQL for rollingback a save point.
-     *
-     * @param string $name The table name
-     * @return string
-     */
-    abstract public function rollbackSavePointSQL($name);
-
-    /**
-     * Get the SQL for disabling foreign keys
-     *
-     * @return string
-     */
-    abstract public function disableForeignKeySQL();
-
-    /**
-     * Get the SQL for enabling foreign keys
-     *
-     * @return string
-     */
-    abstract public function enableForeignKeySQL();
-
-    /**
-     * Returns whether the driver supports adding or dropping constraints
-     * to already created tables.
-     *
-     * @return bool true if driver supports dynamic constraints
-     */
-    abstract public function supportsDynamicConstraints();
-
-    /**
-     * Returns whether this driver supports save points for nested transactions
-     *
-     * @return bool true if save points are supported, false otherwise
-     */
-    public function supportsSavePoints()
+    protected function _connect(string $dsn, array $config): bool
     {
+        $action = function () use ($dsn, $config) {
+            $this->setConnection(new PDO(
+                $dsn,
+                $config['username'] ?: null,
+                $config['password'] ?: null,
+                $config['flags']
+            ));
+        };
+
+        $retry = new CommandRetry(new ErrorCodeWaitStrategy(static::RETRY_ERROR_CODES, 5), 4);
+        try {
+            $retry->run($action);
+        } catch (PDOException $e) {
+            throw new MissingConnectionException(
+                [
+                    'driver' => App::shortName(static::class, 'Database/Driver'),
+                    'reason' => $e->getMessage(),
+                ],
+                null,
+                $e
+            );
+        } finally {
+            $this->connectRetries = $retry->getRetries();
+        }
+
         return true;
     }
 
     /**
-     * Returns a value in a safe representation to be used in a query string
-     *
-     * @param mixed $value The value to quote.
-     * @param string $type Type to be used for determining kind of quoting to perform
-     * @return string
+     * @inheritDoc
      */
-    abstract public function quote($value, $type);
+    abstract public function connect(): bool;
 
     /**
-     * Checks if the driver supports quoting
+     * @inheritDoc
+     */
+    public function disconnect(): void
+    {
+        /** @psalm-suppress PossiblyNullPropertyAssignmentValue */
+        $this->_connection = null;
+        $this->_version = null;
+    }
+
+    /**
+     * Returns connected server version.
+     *
+     * @return string
+     */
+    public function version(): string
+    {
+        if ($this->_version === null) {
+            $this->connect();
+            $this->_version = (string)$this->_connection->getAttribute(PDO::ATTR_SERVER_VERSION);
+        }
+
+        return $this->_version;
+    }
+
+    /**
+     * Get the internal PDO connection instance.
+     *
+     * @return \PDO
+     */
+    public function getConnection()
+    {
+        if ($this->_connection === null) {
+            throw new MissingConnectionException([
+                'driver' => App::shortName(static::class, 'Database/Driver'),
+                'reason' => 'Unknown',
+            ]);
+        }
+
+        return $this->_connection;
+    }
+
+    /**
+     * Set the internal PDO connection instance.
+     *
+     * @param \PDO $connection PDO instance.
+     * @return $this
+     * @psalm-suppress MoreSpecificImplementedParamType
+     */
+    public function setConnection($connection)
+    {
+        $this->_connection = $connection;
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    abstract public function enabled(): bool;
+
+    /**
+     * @inheritDoc
+     */
+    public function prepare($query): StatementInterface
+    {
+        $this->connect();
+        $statement = $this->_connection->prepare($query instanceof Query ? $query->sql() : $query);
+
+        return new PDOStatement($statement, $this);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function beginTransaction(): bool
+    {
+        $this->connect();
+        if ($this->_connection->inTransaction()) {
+            return true;
+        }
+
+        return $this->_connection->beginTransaction();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function commitTransaction(): bool
+    {
+        $this->connect();
+        if (!$this->_connection->inTransaction()) {
+            return false;
+        }
+
+        return $this->_connection->commit();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function rollbackTransaction(): bool
+    {
+        $this->connect();
+        if (!$this->_connection->inTransaction()) {
+            return false;
+        }
+
+        return $this->_connection->rollBack();
+    }
+
+    /**
+     * Returns whether a transaction is active for connection.
      *
      * @return bool
      */
-    public function supportsQuoting()
+    public function inTransaction(): bool
     {
-        return true;
+        $this->connect();
+
+        return $this->_connection->inTransaction();
     }
 
     /**
-     * Returns a callable function that will be used to transform a passed Query object.
-     * This function, in turn, will return an instance of a Query object that has been
-     * transformed to accommodate any specificities of the SQL dialect in use.
-     *
-     * @param string $type the type of query to be transformed
-     * (select, insert, update, delete)
-     * @return callable
+     * @inheritDoc
      */
-    abstract public function queryTranslator($type);
+    public function supportsSavePoints(): bool
+    {
+        deprecationWarning('Feature support checks are now implemented by `supports()` with FEATURE_* constants.');
+
+        return $this->supports(static::FEATURE_SAVEPOINT);
+    }
 
     /**
-     * Get the schema dialect.
+     * Returns true if the server supports common table expressions.
      *
-     * Used by Cake\Database\Schema package to reflect schema and
-     * generate schema.
-     *
-     * If all the tables that use this Driver specify their
-     * own schemas, then this may return null.
-     *
-     * @return \Cake\Database\Schema\BaseSchema
+     * @return bool
+     * @deprecated 4.3.0 Use `supports(DriverInterface::FEATURE_QUOTE)` instead
      */
-    abstract public function schemaDialect();
+    public function supportsCTEs(): bool
+    {
+        deprecationWarning('Feature support checks are now implemented by `supports()` with FEATURE_* constants.');
+
+        return $this->supports(static::FEATURE_CTE);
+    }
 
     /**
-     * Quotes a database identifier (a column name, table name, etc..) to
-     * be used safely in queries without the risk of using reserved words
-     *
-     * @param string $identifier The identifier expression to quote.
-     * @return string
+     * @inheritDoc
      */
-    abstract public function quoteIdentifier($identifier);
+    public function quote($value, $type = PDO::PARAM_STR): string
+    {
+        $this->connect();
+
+        return $this->_connection->quote((string)$value, $type);
+    }
 
     /**
-     * Escapes values for use in schema definitions.
+     * Checks if the driver supports quoting, as PDO_ODBC does not support it.
      *
-     * @param mixed $value The value to escape.
-     * @return string String for use in schema definitions.
+     * @return bool
+     * @deprecated 4.3.0 Use `supports(DriverInterface::FEATURE_QUOTE)` instead
      */
-    public function schemaValue($value)
+    public function supportsQuoting(): bool
+    {
+        deprecationWarning('Feature support checks are now implemented by `supports()` with FEATURE_* constants.');
+
+        return $this->supports(static::FEATURE_QUOTE);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    abstract public function queryTranslator(string $type): Closure;
+
+    /**
+     * @inheritDoc
+     */
+    abstract public function schemaDialect(): SchemaDialect;
+
+    /**
+     * @inheritDoc
+     */
+    abstract public function quoteIdentifier(string $identifier): string;
+
+    /**
+     * @inheritDoc
+     */
+    public function schemaValue($value): string
     {
         if ($value === null) {
             return 'NULL';
@@ -256,119 +351,166 @@ abstract class Driver
         if (is_float($value)) {
             return str_replace(',', '.', (string)$value);
         }
-        if ((is_int($value) || $value === '0') || (
-            is_numeric($value) && strpos($value, ',') === false &&
-            $value[0] !== '0' && strpos($value, 'e') === false)
+        /** @psalm-suppress InvalidArgument */
+        if (
+            (
+                is_int($value) ||
+                $value === '0'
+            ) ||
+            (
+                is_numeric($value) &&
+                strpos($value, ',') === false &&
+                substr($value, 0, 1) !== '0' &&
+                strpos($value, 'e') === false
+            )
         ) {
             return (string)$value;
         }
 
-        return $this->_connection->quote($value, PDO::PARAM_STR);
+        return $this->_connection->quote((string)$value, PDO::PARAM_STR);
     }
 
     /**
-     * Returns the schema name that's being used
-     *
-     * @return string
+     * @inheritDoc
      */
-    public function schema()
+    public function schema(): string
     {
         return $this->_config['schema'];
     }
 
     /**
-     * Returns last id generated for a table or sequence in database
-     *
-     * @param string|null $table table name or sequence to get last insert value from
-     * @param string|null $column the name of the column representing the primary key
-     * @return string|int
+     * @inheritDoc
      */
-    public function lastInsertId($table = null, $column = null)
+    public function lastInsertId(?string $table = null, ?string $column = null)
     {
-        return $this->_connection->lastInsertId($table, $column);
+        $this->connect();
+
+        if ($this->_connection instanceof PDO) {
+            return $this->_connection->lastInsertId($table);
+        }
+
+        return $this->_connection->lastInsertId($table);
     }
 
     /**
-     * Check whether or not the driver is connected.
-     *
-     * @return bool
+     * @inheritDoc
      */
-    public function isConnected()
+    public function isConnected(): bool
     {
-        return $this->_connection !== null;
+        if ($this->_connection === null) {
+            $connected = false;
+        } else {
+            try {
+                $connected = (bool)$this->_connection->query('SELECT 1');
+            } catch (PDOException $e) {
+                $connected = false;
+            }
+        }
+
+        return $connected;
     }
 
     /**
-     * Sets whether or not this driver should automatically quote identifiers
-     * in queries.
-     *
-     * @param bool $enable Whether to enable auto quoting
-     * @return $this
+     * @inheritDoc
      */
-    public function enableAutoQuoting($enable = true)
+    public function enableAutoQuoting(bool $enable = true)
     {
-        $this->_autoQuoting = (bool)$enable;
+        $this->_autoQuoting = $enable;
 
         return $this;
     }
 
     /**
-     * Returns whether or not this driver should automatically quote identifiers
-     * in queries
-     *
-     * @return bool
+     * @inheritDoc
      */
-    public function isAutoQuotingEnabled()
+    public function disableAutoQuoting()
+    {
+        $this->_autoQuoting = false;
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isAutoQuotingEnabled(): bool
     {
         return $this->_autoQuoting;
     }
 
     /**
-     * Returns whether or not this driver should automatically quote identifiers
-     * in queries
+     * Returns whether the driver supports the feature.
      *
-     * If called with a boolean argument, it will toggle the auto quoting setting
-     * to the passed value
+     * Defaults to true for FEATURE_QUOTE and FEATURE_SAVEPOINT.
      *
-     * @deprecated 3.4.0 use enableAutoQuoting()/isAutoQuotingEnabled() instead.
-     * @param bool|null $enable Whether to enable auto quoting
+     * @param string $feature Driver feature name
      * @return bool
      */
-    public function autoQuoting($enable = null)
+    public function supports(string $feature): bool
     {
-        if ($enable !== null) {
-            $this->enableAutoQuoting($enable);
+        switch ($feature) {
+            case static::FEATURE_DISABLE_CONSTRAINT_WITHOUT_TRANSACTION:
+            case static::FEATURE_QUOTE:
+            case static::FEATURE_SAVEPOINT:
+                return true;
         }
 
-        return $this->isAutoQuotingEnabled();
+        return false;
     }
 
     /**
-     * Transforms the passed query to this Driver's dialect and returns an instance
-     * of the transformed query and the full compiled SQL string
-     *
-     * @param \Cake\Database\Query $query The query to compile.
-     * @param \Cake\Database\ValueBinder $generator The value binder to use.
-     * @return array containing 2 entries. The first entity is the transformed query
-     * and the second one the compiled SQL
+     * @inheritDoc
      */
-    public function compileQuery(Query $query, ValueBinder $generator)
+    public function compileQuery(Query $query, ValueBinder $binder): array
     {
         $processor = $this->newCompiler();
         $translator = $this->queryTranslator($query->type());
         $query = $translator($query);
 
-        return [$query, $processor->compile($query, $generator)];
+        return [$query, $processor->compile($query, $binder)];
     }
 
     /**
-     * Returns an instance of a QueryCompiler
-     *
-     * @return \Cake\Database\QueryCompiler
+     * @inheritDoc
      */
-    public function newCompiler()
+    public function newCompiler(): QueryCompiler
     {
         return new QueryCompiler();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function newTableSchema(string $table, array $columns = []): TableSchema
+    {
+        $className = TableSchema::class;
+        if (isset($this->_config['tableSchema'])) {
+            /** @var class-string<\Cake\Database\Schema\TableSchema> $className */
+            $className = $this->_config['tableSchema'];
+        }
+
+        return new $className($table, $columns);
+    }
+
+    /**
+     * Returns the maximum alias length allowed.
+     * This can be different from the maximum identifier length for columns.
+     *
+     * @return int|null Maximum alias length or null if no limit
+     */
+    public function getMaxAliasLength(): ?int
+    {
+        return static::MAX_ALIAS_LENGTH;
+    }
+
+    /**
+     * Returns the number of connection retry attempts made.
+     *
+     * @return int
+     */
+    public function getConnectRetries(): int
+    {
+        return $this->connectRetries;
     }
 
     /**
@@ -376,6 +518,7 @@ abstract class Driver
      */
     public function __destruct()
     {
+        /** @psalm-suppress PossiblyNullPropertyAssignmentValue */
         $this->_connection = null;
     }
 
@@ -383,12 +526,12 @@ abstract class Driver
      * Returns an array that can be used to describe the internal state of this
      * object.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function __debugInfo()
+    public function __debugInfo(): array
     {
         return [
-            'connected' => $this->_connection !== null
+            'connected' => $this->_connection !== null,
         ];
     }
 }

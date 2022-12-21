@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
@@ -13,14 +15,15 @@
  */
 namespace Cake\TestSuite;
 
-use Cake\Core\Configure;
-use Cake\Event\EventManager;
+use Cake\Core\HttpApplicationInterface;
+use Cake\Core\PluginApplicationInterface;
+use Cake\Http\FlashMessage;
 use Cake\Http\Server;
+use Cake\Http\ServerRequest;
 use Cake\Http\ServerRequestFactory;
-use LogicException;
-use ReflectionClass;
-use ReflectionException;
-use Zend\Diactoros\Stream;
+use Cake\Routing\Router;
+use Cake\Routing\RoutingApplicationInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Dispatches a request capturing the response for integration
@@ -31,98 +34,110 @@ use Zend\Diactoros\Stream;
 class MiddlewareDispatcher
 {
     /**
-     * The test case being run.
+     * The application that is being dispatched.
      *
-     * @var \Cake\TestSuite\IntegrationTestCase
+     * @var \Cake\Core\HttpApplicationInterface
      */
-    protected $_test;
-
-    /**
-     * The application class name
-     *
-     * @var string
-     */
-    protected $_class;
-
-    /**
-     * Constructor arguments for your application class.
-     *
-     * @var array
-     */
-    protected $_constructorArgs;
+    protected $app;
 
     /**
      * Constructor
      *
-     * @param \Cake\TestSuite\IntegrationTestCase $test The test case to run.
-     * @param string|null $class The application class name. Defaults to App\Application.
-     * @param array|null $constructorArgs The constructor arguments for your application class.
-     *   Defaults to `['./config']`
+     * @param \Cake\Core\HttpApplicationInterface $app The test case to run.
      */
-    public function __construct($test, $class = null, $constructorArgs = null)
+    public function __construct(HttpApplicationInterface $app)
     {
-        $this->_test = $test;
-        $this->_class = $class ?: Configure::read('App.namespace') . '\Application';
-        $this->_constructorArgs = $constructorArgs ?: [CONFIG];
+        $this->app = $app;
     }
 
     /**
-     * Run a request and get the response.
+     * Resolve the provided URL into a string.
      *
-     * @param \Cake\Http\ServerRequest $request The request to execute.
-     * @return \Psr\Http\Message\ResponseInterface The generated response.
+     * @param array|string $url The URL array/string to resolve.
+     * @return string
      */
-    public function execute($request)
+    public function resolveUrl($url): string
     {
-        try {
-            $reflect = new ReflectionClass($this->_class);
-            $app = $reflect->newInstanceArgs($this->_constructorArgs);
-        } catch (ReflectionException $e) {
-            throw new LogicException(sprintf(
-                'Cannot load "%s" for use in integration testing.',
-                $this->_class
-            ));
+        // If we need to resolve a Route URL but there are no routes, load routes.
+        if (is_array($url) && count(Router::getRouteCollection()->routes()) === 0) {
+            return $this->resolveRoute($url);
         }
 
-        // Spy on the controller using the initialize hook instead
-        // of the dispatcher hooks as those will be going away one day.
-        EventManager::instance()->on(
-            'Controller.initialize',
-            [$this->_test, 'controllerSpy']
-        );
+        return Router::url($url);
+    }
 
-        $server = new Server($app);
-        $psrRequest = $this->_createRequest($request);
+    /**
+     * Convert a URL array into a string URL via routing.
+     *
+     * @param array $url The url to resolve
+     * @return string
+     */
+    protected function resolveRoute(array $url): string
+    {
+        // Simulate application bootstrap and route loading.
+        // We need both to ensure plugins are loaded.
+        $this->app->bootstrap();
+        if ($this->app instanceof PluginApplicationInterface) {
+            $this->app->pluginBootstrap();
+        }
+        $builder = Router::createRouteBuilder('/');
 
-        return $server->run($psrRequest);
+        if ($this->app instanceof RoutingApplicationInterface) {
+            $this->app->routes($builder);
+        }
+        if ($this->app instanceof PluginApplicationInterface) {
+            $this->app->pluginRoutes($builder);
+        }
+
+        $out = Router::url($url);
+        Router::resetRoutes();
+
+        return $out;
     }
 
     /**
      * Create a PSR7 request from the request spec.
      *
-     * @param array $spec The request spec.
-     * @return \Psr\Http\Message\RequestInterface
+     * @param array<string, mixed> $spec The request spec.
+     * @return \Cake\Http\ServerRequest
      */
-    protected function _createRequest($spec)
+    protected function _createRequest(array $spec): ServerRequest
     {
         if (isset($spec['input'])) {
             $spec['post'] = [];
+            $spec['environment']['CAKEPHP_INPUT'] = $spec['input'];
+        }
+        $environment = array_merge(
+            array_merge($_SERVER, ['REQUEST_URI' => $spec['url']]),
+            $spec['environment']
+        );
+        if (strpos($environment['PHP_SELF'], 'phpunit') !== false) {
+            $environment['PHP_SELF'] = '/';
         }
         $request = ServerRequestFactory::fromGlobals(
-            array_merge($_SERVER, $spec['environment'], ['REQUEST_URI' => $spec['url']]),
+            $environment,
             $spec['query'],
             $spec['post'],
-            $spec['cookies']
+            $spec['cookies'],
+            $spec['files']
         );
-        $request = $request->withAttribute('session', $spec['session']);
 
-        if (isset($spec['input'])) {
-            $stream = new Stream('php://memory', 'rw');
-            $stream->write($spec['input']);
-            $stream->rewind();
-            $request = $request->withBody($stream);
-        }
+        return $request
+            ->withAttribute('session', $spec['session'])
+            ->withAttribute('flash', new FlashMessage($spec['session']));
+    }
 
-        return $request;
+    /**
+     * Run a request and get the response.
+     *
+     * @param array<string, mixed> $requestSpec The request spec to execute.
+     * @return \Psr\Http\Message\ResponseInterface The generated response.
+     * @throws \LogicException
+     */
+    public function execute(array $requestSpec): ResponseInterface
+    {
+        $server = new Server($this->app);
+
+        return $server->run($this->_createRequest($requestSpec));
     }
 }

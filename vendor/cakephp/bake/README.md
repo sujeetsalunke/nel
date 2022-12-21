@@ -1,6 +1,7 @@
 # Bake plugin for CakePHP
 
-[![Build Status](https://img.shields.io/travis/cakephp/bake/master.svg?style=flat-square)](https://travis-ci.org/cakephp/bake)
+![Build Status](https://github.com/cakephp/bake/actions/workflows/ci.yml/badge.svg?branch=master)
+[![Latest Stable Version](https://img.shields.io/github/v/release/cakephp/bake?sort=semver&style=flat-square)](https://packagist.org/packages/cakephp/bake)
 [![Coverage Status](https://img.shields.io/codecov/c/github/cakephp/bake.svg?style=flat-square)](https://codecov.io/github/cakephp/bake)
 [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.txt)
 
@@ -19,7 +20,7 @@ composer require --dev cakephp/bake
 
 ## Documentation
 
-You can find the documentation for bake [on the cookbook](http://book.cakephp.org/3.0/en/bake.html).
+You can find the documentation for bake [on its own cookbook](https://book.cakephp.org/bake/2).
 
 ## Testing
 

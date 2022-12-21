@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -13,13 +15,15 @@ namespace DebugKit;
 
 use Cake\Core\Configure;
 use Cake\Core\InstanceConfigTrait;
-use Cake\Event\Event;
+use Cake\Core\Plugin as CorePlugin;
+use Cake\Datasource\Exception\MissingDatasourceConfigException;
 use Cake\Event\EventManager;
-use Cake\Http\Response;
 use Cake\Http\ServerRequest;
-use Cake\ORM\TableRegistry;
+use Cake\Log\Log;
+use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\Routing\Router;
 use DebugKit\Panel\PanelRegistry;
+use PDOException;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -31,6 +35,7 @@ use Psr\Http\Message\ResponseInterface;
 class ToolbarService
 {
     use InstanceConfigTrait;
+    use LocatorAwareTrait;
 
     /**
      * The panel registry.
@@ -59,8 +64,11 @@ class ToolbarService
             'DebugKit.Routes' => true,
             'DebugKit.Packages' => true,
             'DebugKit.Mail' => true,
+            'DebugKit.Deprecations' => true,
         ],
         'forceEnable' => false,
+        'safeTld' => [],
+        'ignorePathsPattern' => null,
     ];
 
     /**
@@ -71,7 +79,7 @@ class ToolbarService
      */
     public function __construct(EventManager $events, array $config)
     {
-        $this->config($config);
+        $this->setConfig($config);
         $this->registry = new PanelRegistry($events);
     }
 
@@ -92,16 +100,81 @@ class ToolbarService
      */
     public function isEnabled()
     {
-        $enabled = (bool)Configure::read('debug');
+        if (isset($GLOBALS['__PHPUNIT_BOOTSTRAP'])) {
+            return false;
+        }
+        $enabled = (bool)Configure::read('debug')
+                && !$this->isSuspiciouslyProduction()
+                && php_sapi_name() !== 'phpdbg';
+
         if ($enabled) {
             return true;
         }
-        $force = $this->config('forceEnable');
+        $force = $this->getConfig('forceEnable');
         if (is_callable($force)) {
             return $force();
         }
 
         return $force;
+    }
+
+    /**
+     * Returns true if this application is being executed on a domain with a TLD
+     * that is commonly associated with a production environment, or if the IP
+     * address is not in a private or reserved range.
+     *
+     * Private  IPv4 = 10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16
+     * Reserved IPv4 = 0.0.0.0/8, 169.254.0.0/16, 127.0.0.0/8 and 240.0.0.0/4
+     *
+     * Private  IPv6 = fc00::/7
+     * Reserved IPv6 = ::1/128, ::/128, ::ffff:0:0/96 and fe80::/10
+     *
+     * @return bool
+     */
+    protected function isSuspiciouslyProduction()
+    {
+        $host = parse_url('http://' . env('HTTP_HOST'), PHP_URL_HOST);
+        if ($host === false) {
+            return false;
+        }
+
+        // IPv6 addresses in URLs are enclosed in brackets. Remove them.
+        $host = trim($host, '[]');
+
+        // Check if the host is a private or reserved IPv4/6 address.
+        $isIp = filter_var($host, FILTER_VALIDATE_IP) !== false;
+        if ($isIp) {
+            $flags = FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE;
+
+            return filter_var($host, FILTER_VALIDATE_IP, $flags) !== false;
+        }
+
+        // So it's not an IP address. It must be a domain name.
+        $parts = explode('.', $host);
+        if (count($parts) == 1) {
+            return false;
+        }
+
+        // Check if the TLD is in the list of safe TLDs.
+        $tld = end($parts);
+        $safeTlds = ['localhost', 'invalid', 'test', 'example', 'local'];
+        $safeTlds = array_merge($safeTlds, (array)$this->getConfig('safeTld'));
+
+        if (in_array($tld, $safeTlds, true)) {
+            return false;
+        }
+
+        // Don't log a warning if forceEnable is set.
+        if (!$this->getConfig('forceEnable')) {
+            $safeList = implode(', ', $safeTlds);
+            Log::warning(
+                "DebugKit is disabling itself as your host `{$host}` " .
+                "is not in the known safe list of top-level-domains ({$safeList}). " .
+                'If you would like to force DebugKit on use the `DebugKit.forceEnable` Configure option.'
+            );
+        }
+
+        return true;
     }
 
     /**
@@ -115,7 +188,7 @@ class ToolbarService
     }
 
     /**
-     * Get the list of loaded panels
+     * Get the a loaded panel
      *
      * @param string $name The name of the panel you want to get.
      * @return \DebugKit\DebugPanel|null The panel or null.
@@ -132,8 +205,8 @@ class ToolbarService
      */
     public function loadPanels()
     {
-        foreach ($this->config('panels') as $panel => $enabled) {
-            list($panel, $enabled) = (is_numeric($panel)) ? [$enabled, true] : [$panel, $enabled];
+        foreach ($this->getConfig('panels') as $panel => $enabled) {
+            [$panel, $enabled] = is_numeric($panel) ? [$enabled, true] : [$panel, $enabled];
             if ($enabled) {
                 $this->registry->load($panel);
             }
@@ -157,31 +230,55 @@ class ToolbarService
      *
      * @param \Cake\Http\ServerRequest $request The request
      * @param \Psr\Http\Message\ResponseInterface $response The response
-     * @return null|\DebugKit\Model\Entity\Request Saved request data.
+     * @return false|\DebugKit\Model\Entity\Request Saved request data.
      */
     public function saveData(ServerRequest $request, ResponseInterface $response)
     {
-        // Skip debugkit requests and requestAction()
-        if ($request->param('plugin') === 'DebugKit' ||
-            strpos($request->getUri()->getPath(), 'debug_kit') !== false ||
-            $request->is('requested')
-        ) {
-            return null;
+        $path = $request->getUri()->getPath();
+        $dashboardUrl = '/debug-kit';
+        if (strpos($path, 'debug_kit') !== false || strpos($path, 'debug-kit') !== false) {
+            if (!($path === $dashboardUrl || $path === $dashboardUrl . '/')) {
+                // internal debug-kit request
+                return false;
+            }
+            // debug-kit dashboard, save request and show toolbar
         }
+
+        $ignorePathsPattern = $this->getConfig('ignorePathsPattern');
+        $statusCode = $response->getStatusCode();
+        if (
+            $ignorePathsPattern &&
+            $statusCode >= 200 &&
+            $statusCode <= 299 &&
+            preg_match($ignorePathsPattern, $path)
+        ) {
+            return false;
+        }
+
         $data = [
             'url' => $request->getUri()->getPath(),
             'content_type' => $response->getHeaderLine('Content-Type'),
             'method' => $request->getMethod(),
             'status_code' => $response->getStatusCode(),
-            'requested_at' => $request->env('REQUEST_TIME'),
-            'panels' => []
+            'requested_at' => $request->getEnv('REQUEST_TIME'),
+            'panels' => [],
         ];
-        /* @var \DebugKit\Model\Table\RequestsTable $requests */
-        $requests = TableRegistry::get('DebugKit.Requests');
-        $requests->gc();
+        try {
+            /** @var \DebugKit\Model\Table\RequestsTable $requests */
+            $requests = $this->getTableLocator()->get('DebugKit.Requests');
+            $requests->gc();
+        } catch (MissingDatasourceConfigException $e) {
+            Log::warning(
+                'Unable to save request. Check your debug_kit datasource connection ' .
+                'or ensure that PDO SQLite extension is enabled.'
+            );
+            Log::warning($e->getMessage());
+
+            return false;
+        }
 
         $row = $requests->newEntity($data);
-        $row->isNew(true);
+        $row->setNew(true);
 
         foreach ($this->registry->loaded() as $name) {
             $panel = $this->registry->{$name};
@@ -201,7 +298,36 @@ class ToolbarService
             ]);
         }
 
-        return $requests->save($row);
+        try {
+            return $requests->save($row);
+        } catch (PDOException $e) {
+            Log::warning('Unable to save request. This is probably due to concurrent requests.');
+            Log::warning($e->getMessage());
+        }
+
+        return false;
+    }
+
+    /**
+     * Reads the modified date of a file in the webroot, and returns the integer
+     *
+     * @return string
+     */
+    public function getToolbarUrl()
+    {
+        $url = 'js/inject-iframe.js';
+        $filePaths = [
+            str_replace('/', DIRECTORY_SEPARATOR, WWW_ROOT . 'debug_kit/' . $url),
+            str_replace('/', DIRECTORY_SEPARATOR, CorePlugin::path('DebugKit') . 'webroot/' . $url),
+        ];
+        $url = '/debug_kit/' . $url;
+        foreach ($filePaths as $filePath) {
+            if (file_exists($filePath)) {
+                return $url . '?' . filemtime($filePath);
+            }
+        }
+
+        return $url;
     }
 
     /**
@@ -216,7 +342,7 @@ class ToolbarService
      */
     public function injectScripts($row, ResponseInterface $response)
     {
-        $response = $response->withHeader('X-DEBUGKIT-ID', $row->id);
+        $response = $response->withHeader('X-DEBUGKIT-ID', (string)$row->id);
         if (strpos($response->getHeaderLine('Content-Type'), 'html') === false) {
             return $response;
         }
@@ -234,10 +360,10 @@ class ToolbarService
 
         $url = Router::url('/', true);
         $script = sprintf(
-            '<script id="__debug_kit" data-id="%s" data-url="%s" src="%s"></script>',
+            '<script id="__debug_kit_script" data-id="%s" data-url="%s" type="module" src="%s"></script>',
             $row->id,
             $url,
-            Router::url('/debug_kit/js/toolbar.js')
+            Router::url($this->getToolbarUrl())
         );
         $contents = substr($contents, 0, $pos) . $script . substr($contents, $pos);
         $body->rewind();

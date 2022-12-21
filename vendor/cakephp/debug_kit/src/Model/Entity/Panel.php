@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -21,14 +23,15 @@ use Cake\ORM\Entity;
  * @property string $title
  * @property string $element
  * @property string $content
+ *
+ * @property \DebugKit\Model\Entity\Request $request
  */
 class Panel extends Entity
 {
-
     /**
      * Some fields should not be in JSON/array exports.
      *
-     * @var array
+     * @var string[]
      */
     protected $_hidden = ['content'];
 
@@ -38,6 +41,7 @@ class Panel extends Entity
      * Over certain sizes PDO will return file handles.
      * For backwards compatibility and consistency we smooth over that difference here.
      *
+     * @param mixed $content Content
      * @return string
      */
     protected function _getContent($content)

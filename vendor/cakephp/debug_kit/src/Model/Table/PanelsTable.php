@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
@@ -14,23 +16,22 @@ namespace DebugKit\Model\Table;
 
 use Cake\ORM\Query;
 use Cake\ORM\Table;
-use DebugKit\Model\Entity\Panel;
 
 /**
  * The panels table collects the information for each panel on
  * each request.
  *
- * @method Panel get($primaryKey, $options = [])
- * @method Panel newEntity($data = null, array $options = [])
- * @method Panel[] newEntities(array $data, array $options = [])
- * @method Panel save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method Panel patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method Panel[] patchEntities($entities, array $data, array $options = [])
- * @method Panel findOrCreate($search, callable $callback = null)
+ * @property \DebugKit\Model\Table\RequestsTable&\Cake\ORM\Association\BelongsTo $Requests
+ * @method \DebugKit\Model\Entity\Panel get($primaryKey, $options = [])
+ * @method \DebugKit\Model\Entity\Panel newEntity($data = null, array $options = [])
+ * @method \DebugKit\Model\Entity\Panel[] newEntities(array $data, array $options = [])
+ * @method \DebugKit\Model\Entity\Panel|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \DebugKit\Model\Entity\Panel patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \DebugKit\Model\Entity\Panel[] patchEntities($entities, array $data, array $options = [])
+ * @method \DebugKit\Model\Entity\Panel findOrCreate($search, callable $callback = null, array $options = [])
  */
 class PanelsTable extends Table
 {
-
     use LazyTableTrait;
 
     /**
@@ -39,7 +40,7 @@ class PanelsTable extends Table
      * @param array $config Config data.
      * @return void
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         $this->belongsTo('DebugKit.Requests');
         $this->ensureTables(['DebugKit.Requests', 'DebugKit.Panels']);
@@ -56,7 +57,7 @@ class PanelsTable extends Table
     public function findByRequest(Query $query, array $options)
     {
         if (empty($options['requestId'])) {
-            throw new \RuntimeException('Missing request id in findByRequest.');
+            throw new \RuntimeException('Missing request id in findByRequest().');
         }
 
         return $query->where(['Panels.request_id' => $options['requestId']])
@@ -68,7 +69,7 @@ class PanelsTable extends Table
      *
      * @return string
      */
-    public static function defaultConnectionName()
+    public static function defaultConnectionName(): string
     {
         return 'debug_kit';
     }

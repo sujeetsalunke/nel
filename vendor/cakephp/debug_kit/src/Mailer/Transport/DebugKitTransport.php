@@ -1,9 +1,11 @@
 <?php
+declare(strict_types=1);
+
 namespace DebugKit\Mailer\Transport;
 
 use Cake\Core\App;
 use Cake\Mailer\AbstractTransport;
-use Cake\Mailer\Email;
+use Cake\Mailer\Message;
 
 /**
  * Debug Transport class, useful for emulating the email sending process and inspecting
@@ -14,7 +16,7 @@ class DebugKitTransport extends AbstractTransport
     /**
      * The transport object this class is decorating
      *
-     * @var AbstractTransport
+     * @var \Cake\Mailer\AbstractTransport|null
      */
     protected $originalTransport;
 
@@ -30,9 +32,9 @@ class DebugKitTransport extends AbstractTransport
      * Constructor
      *
      * @param array $config Configuration options.
-     * @param AbstractTransport|null $originalTransport The transport that is to be decorated
+     * @param \Cake\Mailer\AbstractTransport|null $originalTransport The transport that is to be decorated
      */
-    public function __construct($config = [], AbstractTransport $originalTransport = null)
+    public function __construct($config = [], ?AbstractTransport $originalTransport = null)
     {
         $this->emailLog = $config['debugKitLog'];
 
@@ -58,27 +60,81 @@ class DebugKitTransport extends AbstractTransport
     }
 
     /**
-     * Send mail
-     *
-     * @param \Cake\Mailer\Email $email Cake Email
-     * @return array
+     * @inheritDoc
      */
-    public function send(Email $email)
+    public function send(Message $message): array
     {
-        $headers = $email->getHeaders(['from', 'sender', 'replyTo', 'readReceipt', 'returnPath', 'to', 'cc']);
+        $headers = $message->getHeaders(['from', 'sender', 'replyTo', 'readReceipt', 'returnPath', 'to', 'cc']);
         $parts = [
-            'text' => $email->message(Email::MESSAGE_TEXT),
-            'html' => $email->message(Email::MESSAGE_HTML)
+            'text' => $message->getBodyText(),
+            'html' => $message->getBodyHtml(),
         ];
 
-        $headers['Subject'] = $email->getOriginalSubject();
+        $headers['Subject'] = $message->getOriginalSubject();
         $result = ['headers' => $headers, 'message' => $parts];
         $this->emailLog[] = $result;
 
         if ($this->originalTransport !== null) {
-            return $this->originalTransport->send($email);
+            return $this->originalTransport->send($message);
         }
 
         return $result;
+    }
+
+    /**
+     * Proxy unknown methods to the wrapped object
+     *
+     * @param string $method The method to call
+     * @param array $args The args to call $method with.
+     * @return mixed
+     */
+    public function __call($method, array $args)
+    {
+        return call_user_func_array([$this->originalTransport, $method], $args);
+    }
+
+    /**
+     * Proxy property reads to the wrapped object
+     *
+     * @param string $name The property to read.
+     * @return mixed
+     */
+    public function __get($name)
+    {
+        return $this->originalTransport->{$name};
+    }
+
+    /**
+     * Proxy property changes to the wrapped object
+     *
+     * @param string $name The property to read.
+     * @param mixed $value The property value.
+     * @return mixed
+     */
+    public function __set($name, $value)
+    {
+        return $this->originalTransport->{$name} = $value;
+    }
+
+    /**
+     * Proxy property changes to the wrapped object
+     *
+     * @param string $name The property to read.
+     * @return bool
+     */
+    public function __isset($name)
+    {
+        return isset($this->originalTransport->{$name});
+    }
+
+    /**
+     * Proxy property changes to the wrapped object
+     *
+     * @param string $name The property to delete.
+     * @return void
+     */
+    public function __unset($name)
+    {
+        unset($this->originalTransport->{$name});
     }
 }

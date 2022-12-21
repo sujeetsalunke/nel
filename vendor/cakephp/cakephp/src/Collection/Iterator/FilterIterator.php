@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
@@ -19,6 +21,7 @@ use Cake\Collection\Collection;
 use Cake\Collection\CollectionInterface;
 use CallbackFilterIterator;
 use Iterator;
+use Traversable;
 
 /**
  * Creates a filtered iterator from another iterator. The filtering is done by
@@ -27,7 +30,6 @@ use Iterator;
  */
 class FilterIterator extends Collection
 {
-
     /**
      * The callback used to filter the elements in this collection
      *
@@ -43,7 +45,7 @@ class FilterIterator extends Collection
      * in the current iteration, the key of the element and the passed $items iterator
      * as arguments, in that order.
      *
-     * @param \Iterator $items The items to be filtered.
+     * @param \Traversable|array $items The items to be filtered.
      * @param callable $callback Callback.
      */
     public function __construct($items, callable $callback)
@@ -58,15 +60,11 @@ class FilterIterator extends Collection
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * We perform here some strictness analysis so that the
-     * iterator logic is bypassed entirely.
-     *
-     * @return \Iterator
+     * @inheritDoc
      */
-    public function unwrap()
+    public function unwrap(): Traversable
     {
+        /** @var \IteratorIterator $filter */
         $filter = $this->getInnerIterator();
         $iterator = $filter->getInnerIterator();
 
@@ -74,13 +72,12 @@ class FilterIterator extends Collection
             $iterator = $iterator->unwrap();
         }
 
-        if (!$iterator instanceof ArrayIterator) {
+        if (get_class($iterator) !== ArrayIterator::class) {
             return $filter;
         }
 
         // ArrayIterator can be traversed strictly.
         // Let's do that for performance gains
-
         $callback = $this->_callback;
         $res = [];
 

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
@@ -14,9 +16,7 @@
  */
 namespace Cake\Database\Type;
 
-use Cake\Database\Driver;
-use Cake\Database\Type;
-use Cake\Database\TypeInterface;
+use Cake\Database\DriverInterface;
 use InvalidArgumentException;
 use PDO;
 
@@ -25,39 +25,16 @@ use PDO;
  *
  * Use to convert bool data between PHP and the database types.
  */
-class BoolType extends Type implements TypeInterface
+class BoolType extends BaseType implements BatchCastingInterface
 {
-    /**
-     * Identifier name for this type.
-     *
-     * (This property is declared here again so that the inheritance from
-     * Cake\Database\Type can be removed in the future.)
-     *
-     * @var string|null
-     */
-    protected $_name;
-
-    /**
-     * Constructor.
-     *
-     * (This method is declared here again so that the inheritance from
-     * Cake\Database\Type can be removed in the future.)
-     *
-     * @param string|null $name The name identifying this type
-     */
-    public function __construct($name = null)
-    {
-        $this->_name = $name;
-    }
-
     /**
      * Convert bool data into the database format.
      *
      * @param mixed $value The value to convert.
-     * @param \Cake\Database\Driver $driver The driver instance to convert with.
+     * @param \Cake\Database\DriverInterface $driver The driver instance to convert with.
      * @return bool|null
      */
-    public function toDatabase($value, Driver $driver)
+    public function toDatabase($value, DriverInterface $driver): ?bool
     {
         if ($value === true || $value === false || $value === null) {
             return $value;
@@ -67,22 +44,26 @@ class BoolType extends Type implements TypeInterface
             return (bool)$value;
         }
 
-        throw new InvalidArgumentException('Cannot convert value to bool');
+        throw new InvalidArgumentException(sprintf(
+            'Cannot convert value of type `%s` to bool',
+            getTypeName($value)
+        ));
     }
 
     /**
      * Convert bool values to PHP booleans
      *
      * @param mixed $value The value to convert.
-     * @param \Cake\Database\Driver $driver The driver instance to convert with.
+     * @param \Cake\Database\DriverInterface $driver The driver instance to convert with.
      * @return bool|null
      */
-    public function toPHP($value, Driver $driver)
+    public function toPHP($value, DriverInterface $driver): ?bool
     {
-        if ($value === null) {
-            return null;
+        if ($value === null || is_bool($value)) {
+            return $value;
         }
-        if (is_string($value) && !is_numeric($value)) {
+
+        if (!is_numeric($value)) {
             return strtolower($value) === 'true';
         }
 
@@ -90,13 +71,35 @@ class BoolType extends Type implements TypeInterface
     }
 
     /**
+     * @inheritDoc
+     */
+    public function manyToPHP(array $values, array $fields, DriverInterface $driver): array
+    {
+        foreach ($fields as $field) {
+            $value = $values[$field] ?? null;
+            if ($value === null || is_bool($value)) {
+                continue;
+            }
+
+            if (!is_numeric($value)) {
+                $values[$field] = strtolower($value) === 'true';
+                continue;
+            }
+
+            $values[$field] = !empty($value);
+        }
+
+        return $values;
+    }
+
+    /**
      * Get the correct PDO binding type for bool data.
      *
      * @param mixed $value The value being bound.
-     * @param \Cake\Database\Driver $driver The driver.
+     * @param \Cake\Database\DriverInterface $driver The driver.
      * @return int
      */
-    public function toStatement($value, Driver $driver)
+    public function toStatement($value, DriverInterface $driver): int
     {
         if ($value === null) {
             return PDO::PARAM_NULL;
@@ -106,23 +109,17 @@ class BoolType extends Type implements TypeInterface
     }
 
     /**
-     * Marshalls request data into PHP booleans.
+     * Marshals request data into PHP booleans.
      *
      * @param mixed $value The value to convert.
      * @return bool|null Converted value.
      */
-    public function marshal($value)
+    public function marshal($value): ?bool
     {
-        if ($value === null) {
+        if ($value === null || $value === '') {
             return null;
         }
-        if ($value === 'true') {
-            return true;
-        }
-        if ($value === 'false') {
-            return false;
-        }
 
-        return !empty($value);
+        return filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
     }
 }

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
@@ -16,11 +18,19 @@ namespace Cake\Error\Middleware;
 
 use Cake\Core\App;
 use Cake\Core\Configure;
-use Cake\Core\Exception\Exception as CakeException;
 use Cake\Core\InstanceConfigTrait;
-use Cake\Error\ExceptionRenderer;
-use Cake\Log\Log;
-use Exception;
+use Cake\Error\ErrorHandler;
+use Cake\Error\ExceptionTrap;
+use Cake\Error\Renderer\WebExceptionRenderer;
+use Cake\Http\Exception\RedirectException;
+use Cake\Http\Response;
+use InvalidArgumentException;
+use Laminas\Diactoros\Response\RedirectResponse;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+use Throwable;
 
 /**
  * Error handling middleware.
@@ -28,187 +38,197 @@ use Exception;
  * Traps exceptions and converts them into HTML or content-type appropriate
  * error pages using the CakePHP ExceptionRenderer.
  */
-class ErrorHandlerMiddleware
+class ErrorHandlerMiddleware implements MiddlewareInterface
 {
     use InstanceConfigTrait;
 
     /**
      * Default configuration values.
      *
-     * - `log` Enable logging of exceptions.
-     * - `skipLog` List of exceptions to skip logging. Exceptions that
-     *   extend one of the listed exceptions will also not be logged. Example:
+     * Ignored if contructor is passed an ExceptionTrap instance.
      *
-     *   ```
-     *   'skipLog' => ['Cake\Error\NotFoundException', 'Cake\Error\UnauthorizedException']
-     *   ```
+     * Configuration keys and values are shared with `ExceptionTrap`.
+     * This class will pass its configuration onto the ExceptionTrap
+     * class if you are using the array style constructor.
      *
-     * - `trace` Should error logs include stack traces?
-     *
-     * @var array
+     * @var array<string, mixed>
+     * @see \Cake\Error\ExceptionTrap
      */
     protected $_defaultConfig = [
-        'skipLog' => [],
-        'log' => true,
-        'trace' => false,
+        'exceptionRenderer' => WebExceptionRenderer::class,
     ];
 
     /**
-     * Exception render.
+     * Error handler instance.
      *
-     * @var \Cake\Error\ExceptionRendererInterface|string|null
+     * @var \Cake\Error\ErrorHandler|null
      */
-    protected $exceptionRenderer;
+    protected $errorHandler = null;
+
+    /**
+     * ExceptionTrap instance
+     *
+     * @var \Cake\Error\ExceptionTrap|null
+     */
+    protected $exceptionTrap = null;
 
     /**
      * Constructor
      *
-     * @param string|callable|null $exceptionRenderer The renderer or class name
-     *   to use or a callable factory. If null, Configure::read('Error.exceptionRenderer')
-     *   will be used.
-     * @param array $config Configuration options to use. If empty, `Configure::read('Error')`
-     *   will be used.
+     * @param \Cake\Error\ErrorHandler|\Cake\Error\ExceptionTrap|array $errorHandler The error handler instance
+     *  or config array.
+     * @throws \InvalidArgumentException
      */
-    public function __construct($exceptionRenderer = null, array $config = [])
+    public function __construct($errorHandler = [])
     {
-        if ($exceptionRenderer) {
-            $this->exceptionRenderer = $exceptionRenderer;
+        if (func_num_args() > 1) {
+            deprecationWarning(
+                'The signature of ErrorHandlerMiddleware::__construct() has changed. '
+                . 'Pass the config array as 1st argument instead.'
+            );
+
+            $errorHandler = func_get_arg(1);
         }
 
-        $config = $config ?: Configure::read('Error');
-        $this->setConfig($config);
+        if (PHP_VERSION_ID >= 70400 && Configure::read('debug')) {
+            ini_set('zend.exception_ignore_args', '0');
+        }
+
+        if (is_array($errorHandler)) {
+            $this->setConfig($errorHandler);
+
+            return;
+        }
+        if ($errorHandler instanceof ErrorHandler) {
+            deprecationWarning(
+                'Using an `ErrorHandler` is deprecated. You should migate to the `ExceptionTrap` sub-system instead.'
+            );
+            $this->errorHandler = $errorHandler;
+
+            return;
+        }
+        if ($errorHandler instanceof ExceptionTrap) {
+            $this->exceptionTrap = $errorHandler;
+
+            return;
+        }
+        throw new InvalidArgumentException(sprintf(
+            '$errorHandler argument must be a config array or ExceptionTrap instance. Got `%s` instead.',
+            getTypeName($errorHandler)
+        ));
     }
 
     /**
      * Wrap the remaining middleware with error handling.
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request The request.
-     * @param \Psr\Http\Message\ResponseInterface $response The response.
-     * @param callable $next Callback to invoke the next middleware.
+     * @param \Psr\Http\Server\RequestHandlerInterface $handler The request handler.
      * @return \Psr\Http\Message\ResponseInterface A response
      */
-    public function __invoke($request, $response, $next)
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         try {
-            return $next($request, $response);
-        } catch (Exception $e) {
-            return $this->handleException($e, $request, $response);
+            return $handler->handle($request);
+        } catch (RedirectException $exception) {
+            return $this->handleRedirect($exception);
+        } catch (Throwable $exception) {
+            return $this->handleException($exception, $request);
         }
     }
 
     /**
      * Handle an exception and generate an error response
      *
-     * @param \Exception $exception The exception to handle.
+     * @param \Throwable $exception The exception to handle.
      * @param \Psr\Http\Message\ServerRequestInterface $request The request.
-     * @param \Psr\Http\Message\ResponseInterface $response The response.
+     * @return \Psr\Http\Message\ResponseInterface A response.
+     */
+    public function handleException(Throwable $exception, ServerRequestInterface $request): ResponseInterface
+    {
+        if ($this->errorHandler === null) {
+            $handler = $this->getExceptionTrap();
+            $handler->logException($exception, $request);
+
+            $renderer = $handler->renderer($exception, $request);
+        } else {
+            $handler = $this->getErrorHandler();
+            $handler->logException($exception, $request);
+
+            $renderer = $handler->getRenderer($exception, $request);
+        }
+
+        try {
+            /** @var \Psr\Http\Message\ResponseInterface|string $response */
+            $response = $renderer->render();
+            if (is_string($response)) {
+                return new Response(['body' => $response, 'status' => 500]);
+            }
+
+            return $response;
+        } catch (Throwable $internalException) {
+            $handler->logException($internalException, $request);
+
+            return $this->handleInternalError();
+        }
+    }
+
+    /**
+     * Convert a redirect exception into a response.
+     *
+     * @param \Cake\Http\Exception\RedirectException $exception The exception to handle
+     * @return \Psr\Http\Message\ResponseInterface Response created from the redirect.
+     */
+    public function handleRedirect(RedirectException $exception): ResponseInterface
+    {
+        return new RedirectResponse(
+            $exception->getMessage(),
+            $exception->getCode(),
+            $exception->getHeaders()
+        );
+    }
+
+    /**
+     * Handle internal errors.
+     *
      * @return \Psr\Http\Message\ResponseInterface A response
      */
-    public function handleException($exception, $request, $response)
+    protected function handleInternalError(): ResponseInterface
     {
-        $renderer = $this->getRenderer($exception);
-        try {
-            $res = $renderer->render();
-            $this->logException($request, $exception);
-
-            return $res;
-        } catch (Exception $e) {
-            $this->logException($request, $e);
-
-            $body = $response->getBody();
-            $body->write('An Internal Server Error Occurred');
-            $response = $response->withStatus(500)
-                ->withBody($body);
-        }
-
-        return $response;
+        return new Response([
+            'body' => 'An Internal Server Error Occurred',
+            'status' => 500,
+        ]);
     }
 
     /**
-     * Get a renderer instance
+     * Get a error handler instance
      *
-     * @param \Exception $exception The exception being rendered.
-     * @return \Cake\Error\ExceptionRendererInterface The exception renderer.
-     * @throws \Exception When the renderer class cannot be found.
+     * @return \Cake\Error\ErrorHandler The error handler.
      */
-    protected function getRenderer($exception)
+    protected function getErrorHandler(): ErrorHandler
     {
-        if (!$this->exceptionRenderer) {
-            $this->exceptionRenderer = $this->getConfig('exceptionRenderer') ?: ExceptionRenderer::class;
+        if ($this->errorHandler === null) {
+            /** @var class-string<\Cake\Error\ErrorHandler> $className */
+            $className = App::className('ErrorHandler', 'Error');
+            $this->errorHandler = new $className($this->getConfig());
         }
 
-        if (is_string($this->exceptionRenderer)) {
-            $class = App::className($this->exceptionRenderer, 'Error');
-            if (!$class) {
-                throw new Exception(sprintf(
-                    "The '%s' renderer class could not be found.",
-                    $this->exceptionRenderer
-                ));
-            }
-
-            return new $class($exception);
-        }
-        $factory = $this->exceptionRenderer;
-
-        return $factory($exception);
+        return $this->errorHandler;
     }
 
     /**
-     * Log an error for the exception if applicable.
+     * Get a exception trap instance
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request The current request.
-     * @param \Exception $exception The exception to log a message for.
-     * @return void
+     * @return \Cake\Error\ExceptionTrap The exception trap.
      */
-    protected function logException($request, $exception)
+    protected function getExceptionTrap(): ExceptionTrap
     {
-        if (!$this->getConfig('log')) {
-            return;
+        if ($this->exceptionTrap === null) {
+            /** @var class-string<\Cake\Error\ExceptionTrap> $className */
+            $className = App::className('ExceptionTrap', 'Error');
+            $this->exceptionTrap = new $className($this->getConfig());
         }
 
-        $skipLog = $this->getConfig('skipLog');
-        if ($skipLog) {
-            foreach ((array)$skipLog as $class) {
-                if ($exception instanceof $class) {
-                    return;
-                }
-            }
-        }
-
-        Log::error($this->getMessage($request, $exception));
-    }
-
-    /**
-     * Generate the error log message.
-     *
-     * @param \Psr\Http\Message\ServerRequestInterface $request The current request.
-     * @param \Exception $exception The exception to log a message for.
-     * @return string Error message
-     */
-    protected function getMessage($request, $exception)
-    {
-        $message = sprintf(
-            '[%s] %s',
-            get_class($exception),
-            $exception->getMessage()
-        );
-        $debug = Configure::read('debug');
-
-        if ($debug && $exception instanceof CakeException) {
-            $attributes = $exception->getAttributes();
-            if ($attributes) {
-                $message .= "\nException Attributes: " . var_export($exception->getAttributes(), true);
-            }
-        }
-        $message .= "\nRequest URL: " . $request->getRequestTarget();
-        $referer = $request->getHeaderLine('Referer');
-        if ($referer) {
-            $message .= "\nReferer URL: " . $referer;
-        }
-        if ($this->getConfig('trace')) {
-            $message .= "\nStack Trace:\n" . $exception->getTraceAsString() . "\n\n";
-        }
-
-        return $message;
+        return $this->exceptionTrap;
     }
 }

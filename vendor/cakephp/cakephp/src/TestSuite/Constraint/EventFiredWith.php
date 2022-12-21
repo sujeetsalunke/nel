@@ -1,14 +1,9 @@
 <?php
+declare(strict_types=1);
+
 namespace Cake\TestSuite\Constraint;
 
-if (class_exists('PHPUnit_Runner_Version') && !class_exists('PHPUnit\Framework\Constraint\Constraint')) {
-    class_alias('PHPUnit_Framework_Constraint', 'PHPUnit\Framework\Constraint\Constraint');
-}
-if (class_exists('PHPUnit_Runner_Version') && !class_exists('PHPUnit\Framework\AssertionFailedError')) {
-    class_alias('PHPUnit_Framework_AssertionFailedError', 'PHPUnit\Framework\AssertionFailedError');
-}
-
-use Cake\Event\Event;
+use Cake\Event\EventInterface;
 use Cake\Event\EventManager;
 use PHPUnit\Framework\AssertionFailedError;
 use PHPUnit\Framework\Constraint\Constraint;
@@ -16,14 +11,14 @@ use PHPUnit\Framework\Constraint\Constraint;
 /**
  * EventFiredWith constraint
  *
- * Another glorified in_array check
+ * @internal
  */
 class EventFiredWith extends Constraint
 {
     /**
      * Array of fired events
      *
-     * @var EventManager
+     * @var \Cake\Event\EventManager
      */
     protected $_eventManager;
 
@@ -37,26 +32,27 @@ class EventFiredWith extends Constraint
     /**
      * Event data value
      *
-     * @var string
+     * @var mixed
      */
     protected $_dataValue;
 
     /**
      * Constructor
      *
-     * @param EventManager $eventManager Event manager to check
+     * @param \Cake\Event\EventManager $eventManager Event manager to check
      * @param string $dataKey Data key
-     * @param string $dataValue Data value
+     * @param mixed $dataValue Data value
      */
-    public function __construct($eventManager, $dataKey, $dataValue)
+    public function __construct(EventManager $eventManager, string $dataKey, $dataValue)
     {
-        parent::__construct();
         $this->_eventManager = $eventManager;
         $this->_dataKey = $dataKey;
         $this->_dataValue = $dataValue;
 
         if ($this->_eventManager->getEventList() === null) {
-            throw new AssertionFailedError('The event manager you are asserting against is not configured to track events.');
+            throw new AssertionFailedError(
+                'The event manager you are asserting against is not configured to track events.'
+            );
         }
     }
 
@@ -65,18 +61,21 @@ class EventFiredWith extends Constraint
      *
      * @param mixed $other Constraint check
      * @return bool
+     * @throws \PHPUnit\Framework\AssertionFailedError
      */
-    public function matches($other)
+    public function matches($other): bool
     {
         $firedEvents = [];
         $list = $this->_eventManager->getEventList();
-        $totalEvents = count($list);
-        for ($e = 0; $e < $totalEvents; $e++) {
-            $firedEvents[] = $list[$e];
+        if ($list !== null) {
+            $totalEvents = count($list);
+            for ($e = 0; $e < $totalEvents; $e++) {
+                $firedEvents[] = $list[$e];
+            }
         }
 
         $eventGroup = collection($firedEvents)
-            ->groupBy(function (Event $event) {
+            ->groupBy(function (EventInterface $event): string {
                 return $event->getName();
             })
             ->toArray();
@@ -85,16 +84,20 @@ class EventFiredWith extends Constraint
             return false;
         }
 
+        /** @var array<\Cake\Event\EventInterface> $events */
         $events = $eventGroup[$other];
 
         if (count($events) > 1) {
-            throw new AssertionFailedError(sprintf('Event "%s" was fired %d times, cannot make data assertion', $other, count($events)));
+            throw new AssertionFailedError(sprintf(
+                'Event "%s" was fired %d times, cannot make data assertion',
+                $other,
+                count($events)
+            ));
         }
 
-        /* @var \Cake\Event\Event $event */
         $event = $events[0];
 
-        if (array_key_exists($this->_dataKey, $event->getData()) === false) {
+        if (array_key_exists($this->_dataKey, (array)$event->getData()) === false) {
             return false;
         }
 
@@ -106,7 +109,7 @@ class EventFiredWith extends Constraint
      *
      * @return string
      */
-    public function toString()
+    public function toString(): string
     {
         return 'was fired with ' . $this->_dataKey . ' matching ' . (string)$this->_dataValue;
     }

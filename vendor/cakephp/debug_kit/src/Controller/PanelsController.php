@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
@@ -12,53 +14,43 @@
  */
 namespace DebugKit\Controller;
 
-use Cake\Controller\Controller;
-use Cake\Core\Configure;
-use Cake\Event\Event;
-use Cake\Network\Exception\NotFoundException;
+use Cake\Event\EventInterface;
+use Cake\Http\Exception\NotFoundException;
 
 /**
  * Provides access to panel data.
  *
  * @property \DebugKit\Model\Table\PanelsTable $Panels
  */
-class PanelsController extends Controller
+class PanelsController extends DebugKitController
 {
-
     /**
-     * components
+     * Initialize controller
      *
-     * @var array
-     */
-    public $components = ['RequestHandler', 'Cookie'];
-
-    /**
-     * Before filter handler.
-     *
-     * @param \Cake\Event\Event $event The event.
      * @return void
-     * @throws \Cake\Network\Exception\NotFoundException
      */
-    public function beforeFilter(Event $event)
+    public function initialize(): void
     {
-        // TODO add config override.
-        if (!Configure::read('debug')) {
-            throw new NotFoundException();
-        }
+        $this->loadComponent('RequestHandler');
     }
 
     /**
      * Before render handler.
      *
-     * @param \Cake\Event\Event $event The event.
+     * @param \Cake\Event\EventInterface $event The event.
      * @return void
      */
-    public function beforeRender(Event $event)
+    public function beforeRender(EventInterface $event)
     {
-        $this->viewBuilder()->layout('DebugKit.toolbar');
+        $this->viewBuilder()
+            ->addHelpers([
+                'Form', 'Html', 'Number', 'Url', 'DebugKit.Toolbar',
+                'DebugKit.Credentials', 'DebugKit.SimpleGraph',
+            ])
+            ->setLayout('DebugKit.toolbar');
 
         if (!$this->request->is('json')) {
-            $this->viewBuilder()->className('DebugKit.Ajax');
+            $this->viewBuilder()->setClassName('DebugKit.Ajax');
         }
     }
 
@@ -67,7 +59,7 @@ class PanelsController extends Controller
      *
      * @param string $requestId Request id
      * @return void
-     * @throws \Cake\Network\Exception\NotFoundException
+     * @throws \Cake\Http\Exception\NotFoundException
      */
     public function index($requestId = null)
     {
@@ -77,9 +69,9 @@ class PanelsController extends Controller
             throw new NotFoundException();
         }
         $this->set([
-            '_serialize' => ['panels'],
-            'panels' => $panels
+            'panels' => $panels,
         ]);
+        $this->viewBuilder()->setOption('serialize', ['panels']);
     }
 
     /**
@@ -90,13 +82,41 @@ class PanelsController extends Controller
      */
     public function view($id = null)
     {
-        $this->Cookie->configKey('debugKit_sort', 'encryption', false);
-        $this->set('sort', $this->Cookie->read('debugKit_sort'));
-        $panel = $this->Panels->get($id);
+        $this->set('sort', $this->request->getCookie('debugKit_sort'));
+        $panel = $this->Panels->get($id, ['contain' => ['Requests']]);
 
         $this->set('panel', $panel);
         // @codingStandardsIgnoreStart
         $this->set(@unserialize($panel->content));
         // @codingStandardsIgnoreEnd
+    }
+
+    /**
+     * Get Latest request history panel
+     *
+     * @return \Cake\Http\Response|null
+     */
+    public function latestHistory()
+    {
+        /** @var array{id:string}|null $request */
+        $request = $this->Panels->Requests->find('recent')
+            ->select(['id'])
+            ->disableHydration()
+            ->first();
+        if (!$request) {
+            throw new NotFoundException('No requests found');
+        }
+        /** @var array{id:string}|null $historyPanel */
+        $historyPanel = $this->Panels->find('byRequest', ['requestId' => $request['id']])
+            ->where(['title' => 'History'])
+            ->select(['id'])
+            ->first();
+        if (!$historyPanel) {
+            throw new NotFoundException('History Panel from latest request not found');
+        }
+
+        return $this->redirect([
+            'action' => 'view', $historyPanel['id'],
+        ]);
     }
 }

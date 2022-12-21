@@ -18,21 +18,20 @@ use Cake\TestSuite\Fixture\TestFixture;
 
 /**
  * Short description for class.
- *
  */
 class BakeTagsFixture extends TestFixture
 {
     /**
      * fields property
      *
-     * @var array
+     * @var array<string, mixed>
      */
     public $fields = [
         'id' => ['type' => 'integer'],
         'tag' => ['type' => 'string', 'null' => false],
         'created' => 'datetime',
         'updated' => 'datetime',
-        '_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]]
+        '_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]],
     ];
 
     /**

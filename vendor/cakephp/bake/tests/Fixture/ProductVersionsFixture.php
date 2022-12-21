@@ -18,17 +18,15 @@ use Cake\TestSuite\Fixture\TestFixture;
 
 /**
  * ProductVersionsFixture
- *
  */
 class ProductVersionsFixture extends TestFixture
 {
-
     /**
      * Fields
      *
      * @var array
      */
-    // @codingStandardsIgnoreStart
+    // phpcs:disable
     public $fields = [
         'id' => ['type' => 'integer', 'length' => 11, 'unsigned' => true, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
         'product_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => true, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
@@ -41,7 +39,7 @@ class ProductVersionsFixture extends TestFixture
             'collation' => 'utf8_general_ci'
         ],
     ];
-    // @codingStandardsIgnoreEnd
+    // phpcs:enable
 
     /**
      * Records
@@ -51,7 +49,7 @@ class ProductVersionsFixture extends TestFixture
     public $records = [
         [
             'product_id' => 1,
-            'version' => '2015-12-30 18:11:37'
+            'version' => '2015-12-30 18:11:37',
         ],
     ];
 }

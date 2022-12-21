@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * CakePHP(tm) :  Rapid Development Framework (https://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
@@ -15,6 +17,7 @@
 namespace Cake\Log\Engine;
 
 use Cake\Console\ConsoleOutput;
+use Cake\Log\Formatter\DefaultFormatter;
 use InvalidArgumentException;
 
 /**
@@ -22,17 +25,20 @@ use InvalidArgumentException;
  */
 class ConsoleLog extends BaseLog
 {
-
     /**
      * Default config for this class
      *
-     * @var array
+     * @var array<string, mixed>
      */
     protected $_defaultConfig = [
         'stream' => 'php://stderr',
         'levels' => null,
         'scopes' => [],
-        'outputAs' => 'see constructor'
+        'outputAs' => null,
+        'formatter' => [
+            'className' => DefaultFormatter::class,
+            'includeTags' => true,
+        ],
     ];
 
     /**
@@ -51,20 +57,13 @@ class ConsoleLog extends BaseLog
      * - `scopes` string or array, scopes the engine is interested in
      * - `stream` the path to save logs on.
      * - `outputAs` integer or ConsoleOutput::[RAW|PLAIN|COLOR]
+     * - `dateFormat` PHP date() format.
      *
-     * @param array $config Options for the FileLog, see above.
+     * @param array<string, mixed> $config Options for the FileLog, see above.
      * @throws \InvalidArgumentException
      */
     public function __construct(array $config = [])
     {
-        if ((DIRECTORY_SEPARATOR === '\\' && !(bool)env('ANSICON') && env('ConEmuANSI') !== 'ON') ||
-            (function_exists('posix_isatty') && !posix_isatty($this->_output))
-        ) {
-            $this->_defaultConfig['outputAs'] = ConsoleOutput::PLAIN;
-        } else {
-            $this->_defaultConfig['outputAs'] = ConsoleOutput::COLOR;
-        }
-
         parent::__construct($config);
 
         $config = $this->_config;
@@ -75,22 +74,29 @@ class ConsoleLog extends BaseLog
         } else {
             throw new InvalidArgumentException('`stream` not a ConsoleOutput nor string');
         }
-        $this->_output->setOutputAs($config['outputAs']);
+
+        if (isset($config['outputAs'])) {
+            $this->_output->setOutputAs($config['outputAs']);
+        }
+
+        if (isset($this->_config['dateFormat'])) {
+            deprecationWarning('`dateFormat` option should now be set in the formatter options.', 0);
+            $this->formatter->setConfig('dateFormat', $this->_config['dateFormat']);
+        }
     }
 
     /**
      * Implements writing to console.
      *
-     * @param string $level The severity level of log you are making.
+     * @param mixed $level The severity level of log you are making.
      * @param string $message The message you want to log.
      * @param array $context Additional information about the logged message
-     * @return bool success of write.
+     * @return void success of write.
+     * @see \Cake\Log\Log::$_levels
      */
     public function log($level, $message, array $context = [])
     {
         $message = $this->_format($message, $context);
-        $output = date('Y-m-d H:i:s') . ' ' . ucfirst($level) . ': ' . $message;
-
-        return $this->_output->write(sprintf('<%s>%s</%s>', $level, $output, $level));
+        $this->_output->write($this->formatter->format($level, $message, $context));
     }
 }

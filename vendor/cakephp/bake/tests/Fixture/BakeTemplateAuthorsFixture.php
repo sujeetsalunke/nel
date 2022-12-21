@@ -22,9 +22,9 @@ use Cake\TestSuite\Fixture\TestFixture;
  */
 class BakeTemplateAuthorsFixture extends TestFixture
 {
-
     /**
-     * Avoid overriding core.authors
+     * Avoid overriding AuthorsFixture's table.
+     *
      * @var string
      */
     public $table = 'bake_authors';
@@ -32,7 +32,7 @@ class BakeTemplateAuthorsFixture extends TestFixture
     /**
      * fields property
      *
-     * @var array
+     * @var array<string, mixed>
      */
     public $fields = [
         'id' => ['type' => 'integer'],
@@ -44,7 +44,7 @@ class BakeTemplateAuthorsFixture extends TestFixture
         'account_balance' => ['type' => 'decimal', 'null' => true, 'precision' => 2, 'length' => 12],
         'created' => 'datetime',
         'modified' => 'datetime',
-        '_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]]
+        '_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]],
     ];
 
     /**

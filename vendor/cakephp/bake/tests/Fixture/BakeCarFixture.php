@@ -18,11 +18,9 @@ use Cake\TestSuite\Fixture\TestFixture;
 
 /**
  * BakeCarFixture
- *
  */
 class BakeCarFixture extends TestFixture
 {
-
     /**
      * @var string
      */
@@ -31,7 +29,7 @@ class BakeCarFixture extends TestFixture
     /**
      * fields property
      *
-     * @var array
+     * @var array<string, mixed>
      */
     public $fields = [
         'id' => ['type' => 'integer'],
@@ -41,7 +39,7 @@ class BakeCarFixture extends TestFixture
         'published' => ['type' => 'boolean', 'length' => 1, 'default' => false],
         'created' => 'datetime',
         'updated' => 'datetime',
-        '_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]]
+        '_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]],
     ];
 
     /**

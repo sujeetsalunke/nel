@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
@@ -12,35 +14,44 @@
  */
 namespace DebugKit\Panel;
 
-use Cake\Controller\Controller;
-use Cake\Event\Event;
+use Cake\Event\EventInterface;
 use DebugKit\DebugPanel;
+use Exception;
 
 /**
  * Provides debug information on the Current request params.
- *
  */
 class RequestPanel extends DebugPanel
 {
-
     /**
      * Data collection callback.
      *
-     * @param \Cake\Event\Event $event The shutdown event.
+     * @param \Cake\Event\EventInterface $event The shutdown event.
      * @return void
      */
-    public function shutdown(Event $event)
+    public function shutdown(EventInterface $event)
     {
-        /* @var Controller $controller */
-        $controller = $event->subject();
-        $request = $controller->request;
+        /** @var \Cake\Controller\Controller $controller */
+        $controller = $event->getSubject();
+        $request = $controller->getRequest();
+
+        $attributes = [];
+        foreach ($request->getAttributes() as $attr => $value) {
+            try {
+                serialize($value);
+            } catch (Exception $e) {
+                $value = "Could not serialize `{$attr}`. It failed with {$e->getMessage()}";
+            }
+            $attributes[$attr] = $value;
+        }
+
         $this->_data = [
-            'params' => $request->params,
-            'query' => $request->query,
-            'data' => $request->data,
-            'cookie' => $request->cookies,
+            'attributes' => $attributes,
+            'query' => $request->getQueryParams(),
+            'data' => $request->getData(),
+            'cookie' => $request->getCookieParams(),
             'get' => $_GET,
-            'matchedRoute' => $request->param('_matchedRoute'),
+            'matchedRoute' => $request->getParam('_matchedRoute'),
             'headers' => ['response' => headers_sent($file, $line), 'file' => $file, 'line' => $line],
         ];
     }

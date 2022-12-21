@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
@@ -12,8 +14,8 @@
  */
 namespace DebugKit\Mailer;
 
-use Cake\Datasource\ModelAwareTrait;
 use Cake\Mailer\MailerAwareTrait;
+use Cake\ORM\Locator\LocatorAwareTrait;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
@@ -24,7 +26,7 @@ use ReflectionMethod;
 class MailPreview
 {
     use MailerAwareTrait;
-    use ModelAwareTrait;
+    use LocatorAwareTrait;
 
     /**
      * Returns the name of an email if it is valid
@@ -67,7 +69,7 @@ class MailPreview
      */
     public function name()
     {
-        $classname = get_class($this);
+        $classname = static::class;
         $pos = strrpos($classname, '\\');
 
         return substr($classname, $pos + 1);
@@ -86,7 +88,7 @@ class MailPreview
             return false;
         }
 
-        $baseClass = new ReflectionClass(get_class());
+        $baseClass = new ReflectionClass(self::class);
         if ($baseClass->hasMethod($email)) {
             return false;
         }
